@@ -1,0 +1,67 @@
+# compiled output
+frontend/src/main/frontend/dist/
+frontend/src/main/frontend/tmp/
+frontend/src/main/frontend/out-tsc
+frontend/src/main/frontend/target
+
+# dependencies
+frontend/src/main/frontend/node_modules/
+frontend/src/main/frontend/node/
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.iml
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+frontend/src/main/frontend/.sass-cache
+frontend/src/main/frontend/connect.lock
+frontend/src/main/frontend/coverage
+frontend/src/main/frontend/libpeerconnection.log
+frontend/src/main/frontend/npm-debug.log
+frontend/src/main/frontend/testem.log
+frontend/src/main/frontend/typings
+
+# e2e
+frontend/src/main/frontend/e2e/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+api/target/
+!api/.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+api/.apt_generated
+api/.classpath
+api/.factorypath
+api/.project
+api/.settings
+api/.springBeans
+
+### IntelliJ IDEA ###
+api/.idea
+api/*.iws
+api/*.iml
+api/*.ipr
+
+### NetBeans ###
+api/nbproject/private/
+api/build/
+api/nbbuild/
+api/dist/
+api/nbdist/
+api/.nb-gradle/
