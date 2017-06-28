@@ -8,6 +8,7 @@
 
     <name>Bolt Client</name>
     <description>Bolt messaging app frontend client</description>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>mk.edu.ukim.feit.bolt</groupId>

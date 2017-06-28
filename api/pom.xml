@@ -8,6 +8,7 @@
 
 	<name>Bolt API</name>
 	<description>Bolt messaging app REST API</description>
+	<packaging>war</packaging>
 
 	<parent>
 		<groupId>mk.edu.ukim.feit.bolt</groupId>
