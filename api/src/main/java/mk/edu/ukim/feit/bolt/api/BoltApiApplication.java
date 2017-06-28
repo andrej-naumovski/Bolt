@@ -1,14 +1,10 @@
 package mk.edu.ukim.feit.bolt.api;
 
-import mk.edu.ukim.feit.bolt.api.config.ConfigScanMarker;
 import mk.edu.ukim.feit.bolt.api.controllers.ControllerScanMarker;
 import mk.edu.ukim.feit.bolt.api.repositories.RepositoryScanMarker;
 import mk.edu.ukim.feit.bolt.api.services.ServiceScanMarker;
-import org.h2.server.web.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
