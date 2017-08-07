@@ -1,0 +1,9 @@
+app:
+  name: bolt
+  user_cookie: c_user
+
+jwt:
+  header: Authorization
+  expires_in: 600
+  secret: boltapi
+  cookie: AUTH-TOKEN

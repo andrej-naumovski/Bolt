@@ -82,7 +82,7 @@ public class User implements UserDetails {
         this.contact = contact;
     }
 
-    private void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 
