@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 /**
  * Created by andrejnaumovski on 8/7/17.
  */
-@Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private TokenHelper tokenHelper;

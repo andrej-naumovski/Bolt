@@ -2,6 +2,7 @@ package mk.edu.ukim.feit.bolt.api.config;
 
 import mk.edu.ukim.feit.bolt.api.security.auth.*;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
+import mk.edu.ukim.feit.bolt.api.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String TOKEN_COOKIE;
 
     @Bean
-    public TokenAuthenticationFilter jwtTokenAuthenticationFilter() {
+    public TokenAuthenticationFilter jwtAuthenticationTokenFilter() {
         return new TokenAuthenticationFilter();
     }
 
@@ -40,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserServiceImpl userDetailsService;
 
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -67,9 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .ignoringAntMatchers("/auth/login")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-                .addFilterBefore(jwtTokenAuthenticationFilter(), BasicAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and()
+                .exceptionHandling().authenticationEntryPoint( restAuthenticationEntryPoint ).and()
+                .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated().and()
@@ -81,5 +82,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
                 .logoutSuccessHandler(logoutSuccess)
                 .deleteCookies(TOKEN_COOKIE);
+
     }
 }

@@ -8,10 +8,11 @@ import javax.security.auth.Subject;
 /**
  * Created by andrejnaumovski on 8/7/17.
  */
-@Component
+
 public class AnonAuthentication extends AbstractAuthenticationToken {
+
     public AnonAuthentication() {
-        super(null);
+        super( null );
     }
 
     @Override
@@ -30,24 +31,24 @@ public class AnonAuthentication extends AbstractAuthenticationToken {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(this == obj) {
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-
-        if(obj == null) {
+        if ( obj == null ) {
             return false;
         }
-
-        if(getClass() != obj.getClass()) {
+        if ( getClass() != obj.getClass() ) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
-    }
+
 }
