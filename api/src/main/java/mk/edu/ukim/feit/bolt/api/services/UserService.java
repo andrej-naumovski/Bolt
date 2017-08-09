@@ -8,6 +8,7 @@ import java.util.List;
  * Created by andrejnaumovski on 8/7/17.
  */
 public interface UserService {
+    User findByUsername(String username);
     User findById(Long id);
     List<User> findAll();
     User saveUser(User user);

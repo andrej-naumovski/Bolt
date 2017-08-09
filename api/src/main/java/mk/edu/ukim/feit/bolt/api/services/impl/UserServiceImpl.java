@@ -56,4 +56,9 @@ public class UserServiceImpl implements ServiceScanMarker, UserService, UserDeta
         }
         return user;
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,6 +25,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "first_name")
@@ -92,7 +94,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -164,5 +165,17 @@ public class User implements UserDetails {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", authorities=" + authorities +
+                ", contact=" + contact +
+                '}';
     }
 }
