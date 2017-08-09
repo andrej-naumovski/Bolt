@@ -59,6 +59,36 @@ public class User implements UserDetails {
         inverseJoinColumns = @JoinColumn(name = "second_user_id", referencedColumnName = "id"))
     private List<User> friends;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "friend_requests",
+        joinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "receiver_id", referencedColumnName = "id"))
+    private List<User> friendRequestsSent;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "friend_requests",
+            joinColumns = @JoinColumn(name = "receiver_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
+    private List<User> friendRequestsReceived;
+
+    @JsonIgnore
+    public List<User> getFriendRequestsSent() {
+        return friendRequestsSent;
+    }
+
+    public void setFriendRequestsSent(List<User> friendRequestsSent) {
+        this.friendRequestsSent = friendRequestsSent;
+    }
+
+    @JsonIgnore
+    public List<User> getFriendRequestsReceived() {
+        return friendRequestsReceived;
+    }
+
+    public void setFriendRequestsReceived(List<User> friendRequestsReceived) {
+        this.friendRequestsReceived = friendRequestsReceived;
+    }
+
     @JsonIgnore
     public List<User> getFriends() {
         return friends;
@@ -177,5 +207,18 @@ public class User implements UserDetails {
                 ", authorities=" + authorities +
                 ", contact=" + contact +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) {
+            return true;
+        }
+        User u = (User) obj;
+        if(this.id.equals(u.getId())
+                && this.username.equals(u.getUsername())) {
+            return true;
+        }
+        return false;
     }
 }
