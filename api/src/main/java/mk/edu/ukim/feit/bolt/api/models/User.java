@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gjorgjim on 8/7/17.
@@ -41,68 +43,68 @@ public class User implements UserDetails {
     @JoinTable(name = "user_authority",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_interest",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
-    private List<Interest> interests;
+    private Set<Interest> interests;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "friends",
         joinColumns = @JoinColumn(name = "first_user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "second_user_id", referencedColumnName = "id"))
-    private List<User> friends;
+    private Set<User> friends;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "friend_requests",
         joinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "receiver_id", referencedColumnName = "id"))
-    private List<User> friendRequestsSent;
+    private Set<User> friendRequestsSent;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "friend_requests",
             joinColumns = @JoinColumn(name = "receiver_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
-    private List<User> friendRequestsReceived;
+    private Set<User> friendRequestsReceived;
 
     @JsonIgnore
-    public List<User> getFriendRequestsSent() {
+    public Set<User> getFriendRequestsSent() {
         return friendRequestsSent;
     }
 
-    public void setFriendRequestsSent(List<User> friendRequestsSent) {
+    public void setFriendRequestsSent(Set<User> friendRequestsSent) {
         this.friendRequestsSent = friendRequestsSent;
     }
 
     @JsonIgnore
-    public List<User> getFriendRequestsReceived() {
+    public Set<User> getFriendRequestsReceived() {
         return friendRequestsReceived;
     }
 
-    public void setFriendRequestsReceived(List<User> friendRequestsReceived) {
+    public void setFriendRequestsReceived(Set<User> friendRequestsReceived) {
         this.friendRequestsReceived = friendRequestsReceived;
     }
 
     @JsonIgnore
-    public List<User> getFriends() {
+    public Set<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<User> friends) {
+    public void setFriends(Set<User> friends) {
         this.friends = friends;
     }
 
-    public List<Interest> getInterests() {
+    public Set<Interest> getInterests() {
         return interests;
     }
 
-    public void setInterests(List<Interest> interests) {
+    public void setInterests(Set<Interest> interests) {
         this.interests = interests;
     }
 
@@ -114,7 +116,7 @@ public class User implements UserDetails {
         this.contact = contact;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 

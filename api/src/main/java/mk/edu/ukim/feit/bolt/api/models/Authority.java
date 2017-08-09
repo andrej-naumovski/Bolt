@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -15,12 +16,13 @@ public class Authority implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
@@ -29,7 +31,6 @@ public class Authority implements GrantedAuthority {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getName() {
         return name;
     }

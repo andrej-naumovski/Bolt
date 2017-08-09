@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gjorgjim on 8/9/17.
@@ -31,13 +33,13 @@ public class FriendshipServiceImpl implements FriendshipService {
     public void sendFriendRequest(Long senderId, Long receiverId) {
         User sender = userRepository.findOne(senderId);
         User receiver = userRepository.findOne(receiverId);
-        List<User> senderRequests = sender.getFriendRequestsSent();
-        List<User> receiverRequests = receiver.getFriendRequestsReceived();
+        Set<User> senderRequests = sender.getFriendRequestsSent();
+        Set<User> receiverRequests = receiver.getFriendRequestsReceived();
         if(senderRequests == null) {
-            senderRequests = new ArrayList<>();
+            senderRequests = new HashSet<>();
         }
         if(receiverRequests == null) {
-            receiverRequests = new ArrayList<>();
+            receiverRequests = new HashSet<>();
         }
         if(!receiverRequests.contains(sender)
                 && !receiver.getFriends().contains(sender)
@@ -56,16 +58,16 @@ public class FriendshipServiceImpl implements FriendshipService {
     public void acceptFriendRequest(Long senderId, Long receiverId) {
         User sender = userRepository.findOne(senderId);
         User receiver = userRepository.findOne(receiverId);
-        List<User> senderFriends = sender.getFriends();
-        List<User> receiverFriends = receiver.getFriends();
-        List<User> senderRequests = sender.getFriendRequestsSent();
-        List<User> receiverRequests = receiver.getFriendRequestsReceived();
+        Set<User> senderFriends = sender.getFriends();
+        Set<User> receiverFriends = receiver.getFriends();
+        Set<User> senderRequests = sender.getFriendRequestsSent();
+        Set<User> receiverRequests = receiver.getFriendRequestsReceived();
 
         if(senderFriends == null) {
-            senderFriends = new ArrayList<>();
+            senderFriends = new HashSet<>();
         }
         if(receiverFriends == null) {
-            receiverFriends = new ArrayList<>();
+            receiverFriends = new HashSet<>();
         }
         if(senderRequests == null) {
             return;
@@ -94,8 +96,8 @@ public class FriendshipServiceImpl implements FriendshipService {
     public void declineFriendRequest(Long senderId, Long receiverId) {
         User sender = userRepository.findOne(senderId);
         User receiver = userRepository.findOne(receiverId);
-        List<User> senderRequests = sender.getFriendRequestsSent();
-        List<User> receiverRequests = receiver.getFriendRequestsReceived();
+        Set<User> senderRequests = sender.getFriendRequestsSent();
+        Set<User> receiverRequests = receiver.getFriendRequestsReceived();
 
         if(senderRequests == null) {
             return;

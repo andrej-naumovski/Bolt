@@ -3,6 +3,7 @@ package mk.edu.ukim.feit.bolt.api.controllers;
 import mk.edu.ukim.feit.bolt.api.models.Error;
 import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,19 +37,6 @@ public class UserController {
     public ResponseEntity getAllUsers() {
         List<User> users = userService.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if(user == null) {
-            return new ResponseEntity<>(
-                    new Error(HttpStatus.NOT_FOUND.value(), "A user with that id does not exist."),
-                    HttpStatus.NOT_FOUND
-            );
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
