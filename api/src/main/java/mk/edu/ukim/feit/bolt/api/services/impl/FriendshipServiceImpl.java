@@ -6,9 +6,7 @@ import mk.edu.ukim.feit.bolt.api.services.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,9 +28,9 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public void sendFriendRequest(Long senderId, Long receiverId) {
-        User sender = userRepository.findOne(senderId);
-        User receiver = userRepository.findOne(receiverId);
+    public void sendFriendRequest(String senderUsername, String receiverUsername) throws Exception {
+        User sender = userRepository.findByUsername(senderUsername);
+        User receiver = userRepository.findByUsername(receiverUsername);
         Set<User> senderRequests = sender.getFriendRequestsSent();
         Set<User> receiverRequests = receiver.getFriendRequestsReceived();
         if(senderRequests == null) {
@@ -49,15 +47,19 @@ public class FriendshipServiceImpl implements FriendshipService {
             senderRequests.add(receiver);
             sender.setFriendRequestsSent(senderRequests);
             receiver.setFriendRequestsReceived(receiverRequests);
-            userRepository.save(receiver);
-            userRepository.save(sender);
+            try {
+                userRepository.save(receiver);
+                userRepository.save(sender);
+            } catch (Exception e) {
+                throw new Exception(e);
+            }
         }
     }
 
     @Override
-    public void acceptFriendRequest(Long senderId, Long receiverId) {
-        User sender = userRepository.findOne(senderId);
-        User receiver = userRepository.findOne(receiverId);
+    public void acceptFriendRequest(String senderUsername, String receiverUsername) throws Exception {
+        User sender = userRepository.findByUsername(senderUsername);
+        User receiver = userRepository.findByUsername(receiverUsername);
         Set<User> senderFriends = sender.getFriends();
         Set<User> receiverFriends = receiver.getFriends();
         Set<User> senderRequests = sender.getFriendRequestsSent();
@@ -87,15 +89,19 @@ public class FriendshipServiceImpl implements FriendshipService {
             sender.setFriends(senderFriends);
             receiver.setFriendRequestsReceived(receiverRequests);
             receiver.setFriends(receiverFriends);
-            userRepository.save(sender);
-            userRepository.save(receiver);
+            try {
+                userRepository.save(sender);
+                userRepository.save(receiver);
+            } catch (Exception e) {
+                throw new Exception(e);
+            }
         }
     }
 
     @Override
-    public void declineFriendRequest(Long senderId, Long receiverId) {
-        User sender = userRepository.findOne(senderId);
-        User receiver = userRepository.findOne(receiverId);
+    public void declineFriendRequest(String senderUsername, String receiverUsername) throws Exception {
+        User sender = userRepository.findByUsername(senderUsername);
+        User receiver = userRepository.findByUsername(receiverUsername);
         Set<User> senderRequests = sender.getFriendRequestsSent();
         Set<User> receiverRequests = receiver.getFriendRequestsReceived();
 
@@ -113,8 +119,12 @@ public class FriendshipServiceImpl implements FriendshipService {
             receiverRequests.remove(sender);
             sender.setFriendRequestsSent(senderRequests);
             receiver.setFriendRequestsReceived(receiverRequests);
-            userRepository.save(sender);
-            userRepository.save(receiver);
+            try {
+                userRepository.save(sender);
+                userRepository.save(receiver);
+            } catch (Exception e) {
+                throw new Exception(e);
+            }
         }
     }
 }

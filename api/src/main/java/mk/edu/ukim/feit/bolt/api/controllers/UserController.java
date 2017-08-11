@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gjorgjim on 8/9/17.
@@ -63,7 +65,10 @@ public class UserController {
                             HttpStatus.NOT_FOUND
             );
         }
-
-        return new ResponseEntity<>(user.getFriends(), HttpStatus.OK);
+        Set<User> friends = user.getFriends();
+        if(friends == null) {
+            return new ResponseEntity<>(Collections.EMPTY_SET, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 }

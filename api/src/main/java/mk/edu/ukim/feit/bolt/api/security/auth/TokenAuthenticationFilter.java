@@ -14,8 +14,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import sun.plugin.liveconnect.SecurityContextHelper;
-import sun.tools.jstat.Token;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +40,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String IMG_MATCHER = "/images/*";
     public static final String LOGIN_MATCHER = "/auth/login";
     public static final String LOGOUT_MATCHER = "/auth/logout";
-    public static final String REGISTER_MATCHER = "/auth/register";
+    public static final String REGISTER_MATCHER = "/auth/regis  ter";
 
     private List<String> pathsToSkip = Arrays.asList(
             ROOT_MATCHER,
