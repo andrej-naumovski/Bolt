@@ -35,8 +35,8 @@ public class MailServiceImpl implements MailService {
         passwordResetUrl = String.format("%sreset?token=%s", APP_URL, token.getToken());
         message.setText(
                 String.format("This is an automated message. Please do not reply.\n\n" +
-                        "Your password reset link is:\n%s\nThe URL will be valid for 24 hours.\n\nIf you did not request" +
-                        "this password change please contact us at contact@bolt.com\n\n" +
+                        "Your password reset link is:\n%s\nThe URL will be valid for 24 hours.\n\nIf you did not request " +
+                        "this password change please contact us at contact@bolt.com.\n\n" +
                         "Regards,\n" +
                         "Bolt Messaging team", passwordResetUrl)
         );
