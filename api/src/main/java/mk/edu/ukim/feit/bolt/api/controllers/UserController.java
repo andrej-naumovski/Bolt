@@ -1,9 +1,8 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
-import mk.edu.ukim.feit.bolt.api.models.Error;
+import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,7 +46,7 @@ public class UserController {
         User user = userService.findByUsername(username);
         if(user == null) {
             return new ResponseEntity<>(
-                    new Error(HttpStatus.NOT_FOUND.value(), "A user with that username does not exist."),
+                    new GenericResponse(HttpStatus.NOT_FOUND.value(), "A user with that username does not exist."),
                     HttpStatus.NOT_FOUND
             );
         }
@@ -61,7 +60,7 @@ public class UserController {
 
         if(user == null) {
             return new ResponseEntity<>(
-                    new Error(HttpStatus.NOT_FOUND.value(), "A user with that username does not exists"),
+                    new GenericResponse(HttpStatus.NOT_FOUND.value(), "A user with that username does not exists"),
                             HttpStatus.NOT_FOUND
             );
         }

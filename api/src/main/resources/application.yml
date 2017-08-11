@@ -1,6 +1,7 @@
 app:
   name: bolt
   user_cookie: c_user
+  url: http://bolt.com/
 
 jwt:
   header: Authorization

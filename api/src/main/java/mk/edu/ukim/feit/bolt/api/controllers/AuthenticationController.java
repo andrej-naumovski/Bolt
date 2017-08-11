@@ -1,10 +1,11 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
-import mk.edu.ukim.feit.bolt.api.models.Contact;
-import mk.edu.ukim.feit.bolt.api.models.Error;
-import mk.edu.ukim.feit.bolt.api.models.User;
-import mk.edu.ukim.feit.bolt.api.models.UserTokenState;
+import mk.edu.ukim.feit.bolt.api.exceptions.UserNotFoundException;
+import mk.edu.ukim.feit.bolt.api.models.*;
+import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
+import mk.edu.ukim.feit.bolt.api.services.AuthenticationService;
+import mk.edu.ukim.feit.bolt.api.services.MailService;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
@@ -14,12 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationController {
     private UserService userService;
     private TokenHelper tokenHelper;
+    private MailService mailService;
+    private AuthenticationService authenticationService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -44,15 +43,28 @@ public class AuthenticationController {
     private String TOKEN_COOKIE;
 
     @Autowired
-    public AuthenticationController(UserService userService, TokenHelper tokenHelper) {
+    public AuthenticationController(
+            UserService userService,
+            TokenHelper tokenHelper,
+            MailService mailService,
+            AuthenticationService authenticationService
+            ) {
         if (userService == null) {
             throw new IllegalArgumentException(UserService.class.getName() + " cannot be null.");
         }
         if(tokenHelper == null) {
             throw new IllegalArgumentException(TokenHelper.class.getName() + " cannot be null.");
         }
+        if(mailService == null) {
+            throw new IllegalArgumentException(MailService.class.getName() + " cannot be null.");
+        }
+        if(authenticationService == null) {
+            throw new IllegalArgumentException(AuthenticationService.class.getName() + " cannot be null.");
+        }
         this.userService = userService;
         this.tokenHelper = tokenHelper;
+        this.mailService = mailService;
+        this.authenticationService = authenticationService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -63,7 +75,7 @@ public class AuthenticationController {
         if(userService.findByUsername(user.getUsername()) != null) {
             logger.info(String.format("User with username %s already exists.", user.getUsername()));
             return new ResponseEntity<>(
-                    new Error(HttpStatus.CONFLICT.value(), "A user with that username already exists!"),
+                    new GenericResponse(HttpStatus.CONFLICT.value(), "A user with that username already exists!"),
                     HttpStatus.CONFLICT
             );
         }
@@ -76,7 +88,7 @@ public class AuthenticationController {
                 || user.getPassword().length() < 6) {
             logger.info(String.format("Attempted register by user %s has incomplete data.", user.getUsername()));
             return new ResponseEntity<>(
-                    new Error(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Invalid or incomplete data."),
+                    new GenericResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Invalid or incomplete data."),
                     HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -87,7 +99,7 @@ public class AuthenticationController {
         if(newUser == null) {
             logger.error(String.format("Server error while registering user %s.", user.getUsername()));
             return new ResponseEntity<>(
-                    new Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error processing your data. Please try again."),
+                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse processing your data. Please try again."),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -106,7 +118,6 @@ public class AuthenticationController {
             authCookie.setPath("/");
             authCookie.setHttpOnly(true);
             authCookie.setMaxAge(EXPIRES_IN);
-
             response.addCookie(authCookie);
 
             UserTokenState userTokenState = new UserTokenState(newToken, EXPIRES_IN);
@@ -117,4 +128,28 @@ public class AuthenticationController {
         }
     }
 
+    @RequestMapping(value = "/reset/{username}", method = RequestMethod.GET)
+    public ResponseEntity requestPasswordReset(@PathVariable String username) {
+        PasswordResetToken passwordResetToken;
+        try {
+            passwordResetToken = authenticationService.generatePasswordResetToken(username);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(
+                    new GenericResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
+                    HttpStatus.NOT_FOUND
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Cannot generate reset token at this time, please try again."),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+        mailService.sendPasswordResetEmail(mailService.generatePasswordResetEmail(passwordResetToken));
+        return new ResponseEntity<>(
+                new GenericResponse(
+                        HttpStatus.OK.value(), "An email containing the password reset URL has been sent to your email. Please check your inbox for further instructions."
+                ),
+                HttpStatus.OK
+        );
+    }
 }

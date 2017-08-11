@@ -1,8 +1,8 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
+import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
 import mk.edu.ukim.feit.bolt.api.services.FriendshipService;
-import mk.edu.ukim.feit.bolt.api.models.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +50,7 @@ public class FriendshipController {
             friendshipService.sendFriendRequest(senderUsername, username);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error sending request, please try again later."),
+                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse sending request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -71,7 +71,7 @@ public class FriendshipController {
             friendshipService.acceptFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error accepting request, please try again later."),
+                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse accepting request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -92,7 +92,7 @@ public class FriendshipController {
             friendshipService.declineFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error declining request, please try again later."),
+                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse declining request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }

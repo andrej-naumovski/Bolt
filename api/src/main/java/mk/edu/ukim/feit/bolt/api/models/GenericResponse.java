@@ -3,11 +3,11 @@ package mk.edu.ukim.feit.bolt.api.models;
 /**
  * Created by andrejnaumovski on 8/9/17.
  */
-public class Error {
+public class GenericResponse {
     private int statusCode;
     private String message;
 
-    public Error(int statusCode, String message) {
+    public GenericResponse(int statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
