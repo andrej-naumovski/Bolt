@@ -4,6 +4,8 @@ import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.ServiceScanMarker;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements ServiceScanMarker, UserService, UserDetailsService {
     private UserRepository userRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -40,6 +44,7 @@ public class UserServiceImpl implements ServiceScanMarker, UserService, UserDeta
 
     @Override
     public User saveUser(User user) {
+        logger.debug(" " + user.getSentMessages().size());
         return userRepository.save(user);
     }
 

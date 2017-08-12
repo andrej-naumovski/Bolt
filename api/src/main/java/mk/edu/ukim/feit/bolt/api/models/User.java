@@ -73,6 +73,30 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
     private Set<User> friendRequestsReceived;
 
+    @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiverUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Message> receivedMessages;
+
+    @JsonIgnore
+    public Set<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(Set<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    @JsonIgnore
+    public Set<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(Set<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
+
     @JsonIgnore
     public Set<User> getFriendRequestsSent() {
         return friendRequestsSent;
