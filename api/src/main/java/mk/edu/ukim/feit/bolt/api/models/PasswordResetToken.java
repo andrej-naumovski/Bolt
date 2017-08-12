@@ -28,6 +28,10 @@ public class PasswordResetToken {
     @Column
     private Date date;
 
+    public PasswordResetToken() {
+
+    }
+
     public PasswordResetToken(String token, User user) {
         this.token = token;
         this.user = user;

@@ -152,4 +152,36 @@ public class AuthenticationController {
                 HttpStatus.OK
         );
     }
+
+    @RequestMapping(value = "/reset/validate", method = RequestMethod.GET)
+    public ResponseEntity validateResetToken(@RequestParam String token) {
+        if(authenticationService.isTokenValid(token)) {
+            return new ResponseEntity<>(
+                    new GenericResponse(HttpStatus.OK.value(), "Token is valid."),
+                    HttpStatus.OK
+            );
+        }
+        authenticationService.deletePasswordResetToken(token);
+        return new ResponseEntity<>(
+                new GenericResponse(HttpStatus.BAD_REQUEST.value(), "Password reset token expired."),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @RequestMapping(value = "/reset", method = RequestMethod.POST)
+    public ResponseEntity resetPassword(@RequestParam String token, @RequestParam String password) {
+        try {
+            authenticationService.resetPassword(token, password);
+        } catch(UserNotFoundException e) {
+            return new ResponseEntity<>(
+                    new GenericResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        authenticationService.deletePasswordResetToken(token);
+        return new ResponseEntity<>(
+                new GenericResponse(HttpStatus.OK.value(), "Password successfully reset. Please log in to continue."),
+                HttpStatus.OK
+        );
+    }
 }

@@ -6,8 +6,11 @@ import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.repositories.PasswordResetTokenRepository;
 import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.AuthenticationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,6 +24,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private PasswordResetTokenRepository passwordResetTokenRepository;
     private UserRepository userRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Autowired
     public AuthenticationServiceImpl(PasswordResetTokenRepository passwordResetTokenRepository,
@@ -41,12 +46,39 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(user == null) {
             throw new UserNotFoundException(username);
         }
-        return new PasswordResetToken(UUID.randomUUID().toString(), user);
+        PasswordResetToken passwordResetToken = new PasswordResetToken(UUID.randomUUID().toString(), user);
+        passwordResetTokenRepository.save(passwordResetToken);
+        return passwordResetToken;
     }
 
     @Override
     public boolean isTokenValid(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
-        return passwordResetToken.getDate().compareTo(new Date()) > 0;
+        logger.debug("Argument token: " + token);
+        logger.debug(passwordResetToken != null ? "Token is not null" : "Token is null");
+        return passwordResetToken != null && passwordResetToken.getDate().compareTo(new Date()) > 0;
+    }
+
+    @Override
+    public void deletePasswordResetToken(String token) {
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
+        if(passwordResetToken == null) {
+            return;
+        }
+        passwordResetToken.setUser(null);
+        passwordResetTokenRepository.save(passwordResetToken);
+        passwordResetTokenRepository.delete(passwordResetToken.getId());
+    }
+
+    @Override
+    public void resetPassword(String token, String password) throws UserNotFoundException {
+        User user = passwordResetTokenRepository.findByToken(token).getUser();
+        if(user == null) {
+            throw new UserNotFoundException();
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
     }
 }

@@ -5,6 +5,10 @@ package mk.edu.ukim.feit.bolt.api.exceptions;
  */
 public class UserNotFoundException extends Exception {
 
+    public UserNotFoundException() {
+        super("User does not exist.");
+    }
+
     public UserNotFoundException(String username) {
         super(String.format("User with username %s has not been found.", username));
     }
