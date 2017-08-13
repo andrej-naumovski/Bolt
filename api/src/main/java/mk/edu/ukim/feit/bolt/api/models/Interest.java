@@ -3,7 +3,6 @@ package mk.edu.ukim.feit.bolt.api.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,15 +28,15 @@ public class Interest {
     private Set<Interest> childInterests;
 
     @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Group> groups;
+    private Set<ChatGroup> groups;
 
     @JsonIgnore
-    public Set<Group> getGroups() {
+    public Set<ChatGroup> getGroups() {
         return groups;
     }
 
     @JsonIgnore
-    public void setGroups(Set<Group> groups) {
+    public void setGroups(Set<ChatGroup> groups) {
         this.groups = groups;
     }
 

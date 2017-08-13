@@ -29,7 +29,7 @@ public class GroupMessage {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
-    private Group group;
+    private ChatGroup group;
 
     @JsonIgnore
     public Long getId() {
@@ -65,11 +65,11 @@ public class GroupMessage {
     }
 
     @JsonIgnore
-    public Group getGroup() {
+    public ChatGroup getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(ChatGroup group) {
         this.group = group;
     }
 }

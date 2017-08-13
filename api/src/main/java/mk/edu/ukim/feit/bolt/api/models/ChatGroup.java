@@ -11,8 +11,8 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "group")
-public class Group {
+@Table(name = "chat_group")
+public class ChatGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
