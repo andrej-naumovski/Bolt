@@ -79,6 +79,19 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiverUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Message> receivedMessages;
 
+    @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<GroupMessage> sentGroupMessages;
+
+    @JsonIgnore
+    public Set<GroupMessage> getSentGroupMessages() {
+        return sentGroupMessages;
+    }
+
+    @JsonIgnore
+    public void setSentGroupMessages(Set<GroupMessage> sentGroupMessages) {
+        this.sentGroupMessages = sentGroupMessages;
+    }
+
     @JsonIgnore
     public Set<Message> getSentMessages() {
         return sentMessages;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gjorgjim on 8/7/17.
@@ -25,7 +26,20 @@ public class Interest {
     private Interest parentInterest;
 
     @OneToMany(mappedBy = "parentInterest", cascade = CascadeType.ALL)
-    private List<Interest> childInterests;
+    private Set<Interest> childInterests;
+
+    @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Group> groups;
+
+    @JsonIgnore
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    @JsonIgnore
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 
     public Long getId() {
         return id;
@@ -53,11 +67,11 @@ public class Interest {
         this.parentInterest = parentInterest;
     }
 
-    public List<Interest> getChildInterests() {
+    public Set<Interest> getChildInterests() {
         return childInterests;
     }
 
-    public void setChildInterests(List<Interest> childInterests) {
+    public void setChildInterests(Set<Interest> childInterests) {
         this.childInterests = childInterests;
     }
 }
