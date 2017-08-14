@@ -37,12 +37,12 @@ public class InterestServiceImpl implements InterestService {
     }
 
     @Override
-    public Interest saveInterest(Interest interest) {
+    public Interest save(Interest interest) {
         return interestRepository.save(interest) ;
     }
 
     @Override
-    public void deleteInterest(Long id) {
+    public void delete(Long id) {
         interestRepository.delete(id);
     }
 }

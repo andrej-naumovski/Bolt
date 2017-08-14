@@ -50,13 +50,13 @@ public class InterestController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity saveInterest(Interest interest){
-        Interest in = interestService.saveInterest(interest);
+        Interest in = interestService.save(interest);
         return new ResponseEntity<>(in, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteInterest(@PathVariable Long id){
-        interestService.deleteInterest(id);
+        interestService.delete(id);
         return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 }
