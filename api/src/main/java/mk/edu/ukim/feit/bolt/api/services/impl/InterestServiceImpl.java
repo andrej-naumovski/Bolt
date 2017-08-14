@@ -3,12 +3,14 @@ package mk.edu.ukim.feit.bolt.api.services.impl;
 import mk.edu.ukim.feit.bolt.api.models.Interest;
 import mk.edu.ukim.feit.bolt.api.repositories.InterestRepository;
 import mk.edu.ukim.feit.bolt.api.services.InterestService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by gjorgjim on 8/14/17.
  */
+@Service
 public class InterestServiceImpl implements InterestService {
     private InterestRepository interestRepository;
 
