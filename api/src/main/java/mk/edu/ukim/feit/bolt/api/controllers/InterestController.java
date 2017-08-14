@@ -1,5 +1,6 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
+import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.Interest;
 import mk.edu.ukim.feit.bolt.api.services.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,17 @@ public class InterestController {
     public ResponseEntity getInterestById(@PathVariable Long id) {
         Interest interest = interestService.findById(id);
         return new ResponseEntity<>(interest, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity saveInterest(Interest interest){
+        Interest in = interestService.saveInterest(interest);
+        return new ResponseEntity<>(in, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteInterest(Long id){
+        interestService.deleteInterest(id);
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 }

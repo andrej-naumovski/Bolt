@@ -35,4 +35,14 @@ public class InterestServiceImpl implements InterestService {
     public List<Interest> findAll() {
         return (List<Interest>)interestRepository.findAll();
     }
+
+    @Override
+    public Interest saveInterest(Interest interest) {
+        return interestRepository.save(interest) ;
+    }
+
+    @Override
+    public void deleteInterest(Long id) {
+        interestRepository.delete(id);
+    }
 }
