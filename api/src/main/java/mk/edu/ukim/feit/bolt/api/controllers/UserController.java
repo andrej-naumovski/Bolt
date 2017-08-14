@@ -70,4 +70,13 @@ public class UserController {
         }
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(
+                new GenericResponse(HttpStatus.OK.value(), "User successfully deleted"),
+                HttpStatus.OK
+        );
+    }
 }
