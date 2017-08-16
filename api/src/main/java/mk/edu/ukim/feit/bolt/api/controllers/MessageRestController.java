@@ -2,7 +2,9 @@ package mk.edu.ukim.feit.bolt.api.controllers;
 
 import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.Message;
+import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.services.MessageService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,6 +47,12 @@ public class MessageRestController {
     public ResponseEntity deleteMessage(@PathVariable Long id){
         messageService.delete(id);
         return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(),"Message successfully deleted"),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{username}/last", method = RequestMethod.GET)
+    public ResponseEntity getLastUsersFromChat(@PathVariable String username) {
+        List<User> users = messageService.findLastUsersFromChat(username);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }

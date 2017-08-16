@@ -12,4 +12,6 @@ import java.util.Set;
  */
 public interface MessageRepository extends CrudRepository<Message, Long> {
     List<Message> findBySenderUserUsernameAndReceiverUserUsername(String senderUserUsername, String receiverUserUsername);
+    List<Message> findBySenderUserUsername(String username);
+    List<Message> findByRecieverUserUsername(String username);
 }
