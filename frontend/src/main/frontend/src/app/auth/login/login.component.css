@@ -1,0 +1,18 @@
+.row {
+  text-align: center;
+}
+
+md-input-container {
+  width: 100%;
+  color: white !important;
+}
+
+button {
+  width: 100%;
+}
+
+.secondary-url {
+  color: white;
+  font-family: Roboto;
+  font-weight: 200;
+}

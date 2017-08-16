@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4 vert-offset-top-2">
+      <img class="img-responsive img" src="../../../assets/Splash%20screen%20elements.png">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <md-input-container color="accent">
+          <md-icon mdPrefix>person</md-icon>
+          <input mdInput placeholder="Username" type="text">
+        </md-input-container>
+        <br>
+        <md-input-container color="accent">
+          <md-icon mdPrefix>lock</md-icon>
+          <input mdInput placeholder="Password" type="password">
+        </md-input-container>
+        <button md-raised-button color="accent" type="submit">LOG IN</button>
+        <button class="secondary-url" md-button type="button">Don't have an account? <strong>Register here.</strong></button>
+        <button class="secondary-url" md-button type="button">Forgot your password?</button>
+      </form>
+    </div>
+  </div>
+</div>
