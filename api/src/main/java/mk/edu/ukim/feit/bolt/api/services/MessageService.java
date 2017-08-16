@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.services;
 
 import mk.edu.ukim.feit.bolt.api.models.Message;
+import mk.edu.ukim.feit.bolt.api.models.User;
 
 import java.util.List;
 import java.util.Set;
@@ -14,4 +15,6 @@ public interface MessageService {
     List<Message> findBySenderAndReceiver(String sender, String receiver);
     Message save(Message message);
     void delete(Long id);
+    List<User> findLastUsersFromChat(String username);
+    List<User> findFavoriteUsers(String username);
 }

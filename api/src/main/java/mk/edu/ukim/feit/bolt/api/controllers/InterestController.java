@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,14 +46,14 @@ public class InterestController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity saveInterest(Interest interest){
-        Interest in = interestService.saveInterest(interest);
+    public ResponseEntity saveInterest(@RequestBody Interest interest){
+        Interest in = interestService.save(interest);
         return new ResponseEntity<>(in, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteInterest(@PathVariable Long id){
-        interestService.deleteInterest(id);
+        interestService.delete(id);
         return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 }
