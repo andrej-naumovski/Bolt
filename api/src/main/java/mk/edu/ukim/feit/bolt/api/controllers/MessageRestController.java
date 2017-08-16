@@ -55,4 +55,10 @@ public class MessageRestController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{username}/favorite", method = RequestMethod.GET)
+    public ResponseEntity getFavoriteUsers(@PathVariable String username){
+        List<User> users = messageService.findFavoriteUsers(username);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
 }
