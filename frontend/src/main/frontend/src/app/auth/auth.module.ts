@@ -4,7 +4,7 @@ import { AuthComponent } from './auth.component';
 import {routing} from "./auth.routing";
 import { LoginComponent } from './login/login.component';
 import {MdInputModule, MdIconModule, MdButtonModule} from "@angular/material";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -13,6 +13,7 @@ import {FormsModule} from "@angular/forms";
     MdInputModule,
     MdIconModule,
     MdButtonModule,
+    ReactiveFormsModule,
     routing
   ],
   declarations: [AuthComponent, LoginComponent]
