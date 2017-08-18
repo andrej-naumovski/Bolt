@@ -20,7 +20,7 @@
         </md-input-container>
         <md-error *ngIf="this.loginFailed">Invalid username and/or password. Please try again.</md-error>
         <button class="submit" md-raised-button [disabled]="!this.loginForm.valid" color="accent" type="submit">LOG IN</button>
-        <button class="secondary-url" md-button type="button">Don't have an account? <strong>Register here.</strong></button>
+        <button class="secondary-url" md-button type="button" routerLink="../register">Don't have an account? <strong>Register here.</strong></button>
         <button class="secondary-url" md-button type="button">Forgot your password?</button>
       </form>
     </div>

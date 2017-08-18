@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row vert-offset-top-4">
+    <div class="col-xs-2 col-xs-offset-5">
+      <img src="../../../assets/Splash%20screen%20elements.png" class="img img-responsive">
+    </div>
+  </div>
+  <div class="row vert-offset-top-2">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
+      <form [formGroup]="registerForm" (submit)="registerUser(registerForm.value)">
+        <md-input-container color="accent">
+          <md-icon mdPrefix>person</md-icon>
+          <input mdInput type="text" formControlName="username" placeholder="Username">
+          <md-error>Username is required.</md-error>
+        </md-input-container>
+        <md-input-container color="accent">
+          <md-icon mdPrefix>lock</md-icon>
+          <input mdInput type="password" formControlName="password" placeholder="Password">
+          <md-error>Password is required and must contain more than 6 characters.</md-error>
+        </md-input-container>
+        <md-input-container color="accent">
+          <md-icon mdPrefix>lock</md-icon>
+          <input mdInput type="password" formControlName="repeatPassword" placeholder="Repeat password">
+          <md-error>Error! Passwords do not match.</md-error>
+        </md-input-container>
+        <md-input-container color="accent">
+          <md-icon mdPrefix>person</md-icon>
+          <input mdInput type="text" formControlName="firstName" placeholder="First name">
+          <md-error>First name is required.</md-error>
+        </md-input-container>
+        <md-input-container color="accent">
+          <md-icon mdPrefix>person</md-icon>
+          <input mdInput type="text" formControlName="lastName" placeholder="Last name">
+          <md-error>Last name is required.</md-error>
+        </md-input-container>
+        <md-input-container formGroupName="contact" color="accent">
+          <md-icon mdPrefix>mail</md-icon>
+          <input mdInput type="email" formControlName="email" placeholder="E-mail address">
+          <md-error>E-mail address is required and must be valid.</md-error>
+        </md-input-container>
+        <button class="submit" md-raised-button [disabled]="!this.registerForm.valid" color="accent" type="submit">REGISTER</button>
+        <button class="secondary-url" md-button type="button" routerLink="../login">Already registered? <strong>Login here.</strong></button>
+      </form>
+    </div>
+  </div>
+</div>
