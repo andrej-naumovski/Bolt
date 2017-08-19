@@ -30,6 +30,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginFailed = false;
+    if(this.cacheService.get('token')) {
+      this.router.navigateByUrl('feed');
+    }
   }
 
   onSubmit() {
@@ -39,11 +42,11 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response) => {
           dialogRef.close();
-          this.router.navigateByUrl('feed');
           if(this.cacheService.get('token')) {
             this.cacheService.remove('token');
           }
           this.cacheService.set('token', response);
+          this.router.navigateByUrl('feed');
         },
         (error) => {
           if(error.status === 401) {

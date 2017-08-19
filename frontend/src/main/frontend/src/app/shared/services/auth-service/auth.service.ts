@@ -6,6 +6,7 @@ import {Headers, Http, URLSearchParams} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
+import {RegisterUser} from "../../models/user";
 
 @Injectable()
 export class AuthService {
@@ -17,11 +18,25 @@ export class AuthService {
     let body = new URLSearchParams();
     body.set('username', username);
     body.set('password', password);
-    return this.http.post(environment.api + '/auth/login', body)
+    return this.http
+      .post(environment.api + '/auth/login', body)
       .map((res) => {
         return res.json();
       })
       .catch((error) => {
+        return Observable.throw(error || "Server error");
+      });
+  }
+
+  register(user: RegisterUser): Observable<any> {
+    return this.http
+      .post(environment.api + '/auth/register', user)
+      .map((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .catch((error) => {
+        console.log(error);
         return Observable.throw(error || "Server error");
       });
   }

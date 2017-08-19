@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RegisterUser} from "../../shared/models/user";
 import {PasswordValidators} from "../../shared/validators/PasswordValidators";
+import {AuthService} from "../../shared/services/auth-service/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,8 @@ import {PasswordValidators} from "../../shared/validators/PasswordValidators";
 export class RegisterComponent implements OnInit {
   private registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private authService: AuthService) {
     this.registerForm = formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -31,6 +33,16 @@ export class RegisterComponent implements OnInit {
 
   registerUser(user: RegisterUser) {
     console.log(user);
+    this.authService
+      .register(user)
+      .subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
 }
