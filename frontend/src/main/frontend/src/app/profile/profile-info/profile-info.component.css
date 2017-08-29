@@ -1,0 +1,21 @@
+.card-header {
+  background: #0288D1;
+  margin: 0;
+  padding-left: 1em;
+  padding-top: 1em;
+}
+
+md-card {
+  padding: 0;
+  margin-left: 16px;
+}
+
+md-card-title {
+  font-size: 1.2em !important;
+}
+
+md-card-content {
+  text-align: left;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
