@@ -31,3 +31,11 @@ h1 {
   font-size: 3em;
   font-weight: 200;
 }
+
+.profile-info {
+  margin-bottom: 8px;
+}
+
+.profile-interests {
+  margin-top: 8px;
+}

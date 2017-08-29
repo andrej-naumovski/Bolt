@@ -5,6 +5,7 @@ import mk.edu.ukim.feit.bolt.api.models.*;
 import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
 import mk.edu.ukim.feit.bolt.api.services.AuthenticationService;
+import mk.edu.ukim.feit.bolt.api.services.AuthorityService;
 import mk.edu.ukim.feit.bolt.api.services.MailService;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andrejnaumovski on 8/9/17.
@@ -28,11 +31,13 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(value = "*")
 public class AuthenticationController {
     private UserService userService;
     private TokenHelper tokenHelper;
     private MailService mailService;
     private AuthenticationService authenticationService;
+    private AuthorityService authorityService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -47,7 +52,8 @@ public class AuthenticationController {
             UserService userService,
             TokenHelper tokenHelper,
             MailService mailService,
-            AuthenticationService authenticationService
+            AuthenticationService authenticationService,
+            AuthorityService authorityService
             ) {
         if (userService == null) {
             throw new IllegalArgumentException(UserService.class.getName() + " cannot be null.");
@@ -61,10 +67,14 @@ public class AuthenticationController {
         if(authenticationService == null) {
             throw new IllegalArgumentException(AuthenticationService.class.getName() + " cannot be null.");
         }
+        if(authorityService == null) {
+            throw new IllegalArgumentException(AuthorityService.class.getName() + " cannot be null.");
+        }
         this.userService = userService;
         this.tokenHelper = tokenHelper;
         this.mailService = mailService;
         this.authenticationService = authenticationService;
+        this.authorityService = authorityService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -94,6 +104,11 @@ public class AuthenticationController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(authorityService.findByName("ROLE_USER"));
+        user.setAuthorities(authorities);
+
         User newUser = this.userService.saveUser(user);
 
         if(newUser == null) {

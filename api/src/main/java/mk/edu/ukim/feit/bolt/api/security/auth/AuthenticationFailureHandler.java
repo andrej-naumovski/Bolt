@@ -1,5 +1,8 @@
 package mk.edu.ukim.feit.bolt.api.security.auth;
 
+import mk.edu.ukim.feit.bolt.api.services.AuthenticationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

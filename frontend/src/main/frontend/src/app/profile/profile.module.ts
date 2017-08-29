@@ -5,6 +5,9 @@ import {routing} from "./profile.routing";
 import { ProfileOverviewComponent } from './profile-overview/profile-overview.component';
 import {MdButtonModule, MdCardModule, MdIconModule, MdToolbarModule} from "@angular/material";
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
+import { ProfileInterestsComponent } from './profile-interests/profile-interests.component';
+import {ProfileService} from "../shared/services/profile-service/profile.service";
+import {UserResolve} from "../shared/resolvers/user.resolve";
 
 @NgModule({
   imports: [
@@ -15,6 +18,6 @@ import { ProfileInfoComponent } from './profile-info/profile-info.component';
     MdIconModule,
     routing
   ],
-  declarations: [ProfileComponent, ProfileOverviewComponent, ProfileInfoComponent]
+  declarations: [ProfileComponent, ProfileOverviewComponent, ProfileInfoComponent, ProfileInterestsComponent]
 })
 export class ProfileModule { }

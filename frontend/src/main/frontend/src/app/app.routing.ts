@@ -4,6 +4,7 @@ import {ModuleWithProviders} from "@angular/core";
 
 const routes:Routes = [
   {path: 'auth', loadChildren: 'app/auth/auth.module#AuthModule'},
+  {path: 'profile', loadChildren: 'app/profile/profile.module#ProfileModule'},
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
   {path: '**', redirectTo: '404'},
   {path: '404', component: NotFoundComponent}

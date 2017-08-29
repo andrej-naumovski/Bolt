@@ -2,6 +2,7 @@ package mk.edu.ukim.feit.bolt.api.services;
 
 import mk.edu.ukim.feit.bolt.api.exceptions.UserNotFoundException;
 import mk.edu.ukim.feit.bolt.api.models.PasswordResetToken;
+import mk.edu.ukim.feit.bolt.api.models.User;
 
 /**
  * Created by gjorgjim on 8/11/17.

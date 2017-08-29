@@ -1,19 +1,27 @@
 package mk.edu.ukim.feit.bolt.api.services.impl;
 
 import mk.edu.ukim.feit.bolt.api.exceptions.UserNotFoundException;
+import mk.edu.ukim.feit.bolt.api.models.Authority;
+import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.PasswordResetToken;
 import mk.edu.ukim.feit.bolt.api.models.User;
+import mk.edu.ukim.feit.bolt.api.repositories.AuthorityRepository;
 import mk.edu.ukim.feit.bolt.api.repositories.PasswordResetTokenRepository;
 import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.AuthenticationService;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -28,8 +36,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Autowired
-    public AuthenticationServiceImpl(PasswordResetTokenRepository passwordResetTokenRepository,
-                                     UserRepository userRepository) {
+    public AuthenticationServiceImpl(
+            PasswordResetTokenRepository passwordResetTokenRepository,
+            UserRepository userRepository
+    ) {
         if(passwordResetTokenRepository == null) {
             throw new IllegalArgumentException(PasswordResetTokenRepository.class.getName() + " cannot be null.");
         }

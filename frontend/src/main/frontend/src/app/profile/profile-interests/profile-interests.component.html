@@ -1,0 +1,11 @@
+<md-card>
+  <md-card-header class="card-header">
+    <md-icon md-card-avatar>bubble_chart</md-icon>
+    <md-card-title>Interests</md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <ul>
+      <li *ngFor="let interest of _interests">{{interest.name}}</li>
+    </ul>
+  </md-card-content>
+</md-card>

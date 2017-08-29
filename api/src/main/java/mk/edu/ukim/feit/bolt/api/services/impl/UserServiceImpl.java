@@ -44,7 +44,6 @@ public class UserServiceImpl implements ServiceScanMarker, UserService, UserDeta
 
     @Override
     public User saveUser(User user) {
-        logger.debug(" " + user.getSentMessages().size());
         return userRepository.save(user);
     }
 

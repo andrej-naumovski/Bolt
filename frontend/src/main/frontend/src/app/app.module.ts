@@ -13,6 +13,8 @@ import {AuthService} from "./shared/services/auth-service/auth.service";
 import {HttpClientModule} from "@angular/common/http";
 import { LoadingDialogComponent } from './shared/components/loading-dialog/loading-dialog.component';
 import {CacheService} from "ng2-cache";
+import {ProfileService} from "./shared/services/profile-service/profile.service";
+import {UserResolve} from "./shared/resolvers/user.resolve";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import {CacheService} from "ng2-cache";
     AuthModule,
     routing
   ],
-  providers: [AuthService, CacheService],
+  providers: [AuthService, CacheService, ProfileService, UserResolve],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]
 })
