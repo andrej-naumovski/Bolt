@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -78,5 +75,17 @@ public class UserController {
                 new GenericResponse(HttpStatus.OK.value(), "User successfully deleted"),
                 HttpStatus.OK
         );
+    }
+
+    @RequestMapping(value = "/{username}", method = RequestMethod.PUT)
+    public ResponseEntity saveUser(@PathVariable String username, @RequestBody User user){
+        if(!username.equals(user.getUsername()))
+            return new ResponseEntity<>(
+                    new GenericResponse(HttpStatus.BAD_REQUEST.value(), "Usernames didn't match"),
+                    HttpStatus.BAD_REQUEST);
+        userService.saveUser(user);
+        return new ResponseEntity<>(
+                new GenericResponse(HttpStatus.OK.value(), "User successfully saved"),
+                HttpStatus.OK);
     }
 }
