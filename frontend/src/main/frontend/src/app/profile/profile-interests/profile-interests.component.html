@@ -8,4 +8,7 @@
       <li *ngFor="let interest of _interests">{{interest.name}}</li>
     </ul>
   </md-card-content>
+  <md-card-actions *ngIf="this._isCurrentUser">
+    <button md-button color="accent">EDIT</button>
+  </md-card-actions>
 </md-card>

@@ -5,6 +5,7 @@ import {MdDialog} from "@angular/material";
 import {LoadingDialogComponent} from "../../shared/components/loading-dialog/loading-dialog.component";
 import {Router} from "@angular/router";
 import {CacheService} from "ng2-cache";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private dialog: MdDialog,
     private router: Router,
-    private cacheService: CacheService
+    private cacheService: CacheService,
+    private cookieService: CookieService
   ) {
     this.loginForm = formBuilder.group({
       username: ['', Validators.required],
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginFailed = false;
     if(this.cacheService.get('token')) {
-      this.router.navigateByUrl('feed');
+      this.router.navigateByUrl('profile/' + this.cacheService.get('username'));
     }
   }
 
@@ -44,9 +46,12 @@ export class LoginComponent implements OnInit {
           dialogRef.close();
           if(this.cacheService.get('token')) {
             this.cacheService.remove('token');
+            this.cacheService.remove('username');
           }
           this.cacheService.set('token', response);
-          this.router.navigateByUrl('feed');
+          this.cacheService.set('username', this.loginForm.controls.username.value);
+          console.log(this.cookieService.get('XSRF-TOKEN'));
+          this.router.navigateByUrl('profile/' + this.loginForm.controls.username.value);
         },
         (error) => {
           if(error.status === 401) {

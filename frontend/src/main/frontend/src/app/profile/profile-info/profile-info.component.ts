@@ -8,10 +8,16 @@ import {User} from "../../shared/models/user";
 })
 export class ProfileInfoComponent implements OnInit {
   private _user: User;
+  private _isCurrentUser: boolean;
 
   @Input()
   set user(user: User) {
     this._user = user;
+  }
+
+  @Input()
+  set currentUser(currentUser: boolean) {
+    this._isCurrentUser = currentUser;
   }
 
   constructor() { }

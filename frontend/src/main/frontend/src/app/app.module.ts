@@ -10,11 +10,14 @@ import {routing} from "./app.routing";
 import {AuthModule} from "./auth/auth.module";
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdProgressSpinnerModule} from "@angular/material";
 import {AuthService} from "./shared/services/auth-service/auth.service";
-import {HttpClientModule} from "@angular/common/http";
 import { LoadingDialogComponent } from './shared/components/loading-dialog/loading-dialog.component';
 import {CacheService} from "ng2-cache";
 import {ProfileService} from "./shared/services/profile-service/profile.service";
 import {UserResolve} from "./shared/resolvers/user.resolve";
+import {AuthGuard} from "./shared/guards/auth.guard";
+import {AuthenticatedInterceptor} from "./shared/interceptors/authenticated.interceptor";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -25,8 +28,8 @@ import {UserResolve} from "./shared/resolvers/user.resolve";
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MdInputModule,
     MdButtonModule,
@@ -36,7 +39,11 @@ import {UserResolve} from "./shared/resolvers/user.resolve";
     AuthModule,
     routing
   ],
-  providers: [AuthService, CacheService, ProfileService, UserResolve],
+  providers: [AuthService, CacheService, CookieService, ProfileService, UserResolve, AuthGuard, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthenticatedInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]
 })

@@ -10,14 +10,14 @@
 </div>
 <div class="row">
   <div class="col-md-2 col-xs-8 col-xs-offset-2 col-md-offset-5">
-    <button md-raised-button color="accent">SEND FRIEND REQUEST</button>
+    <button *ngIf="!this.isCurrentUser" md-raised-button color="accent">SEND FRIEND REQUEST</button>
   </div>
 </div>
 <div class="row vert-offset-top-1">
   <div class="col-md-5 col-xs-12 profile-info">
-    <profile-info [user]="this.profile"></profile-info>
+    <profile-info [user]="this.profile" [currentUser]="this.isCurrentUser"></profile-info>
   </div>
   <div class="col-md-5 col-md-offset-2 col-xs-12 profile-interests">
-    <profile-interests [interests]="this.profile.interests"></profile-interests>
+    <profile-interests [interests]="this.profile.interests" [currentUser]="this.isCurrentUser"></profile-interests>
   </div>
 </div>

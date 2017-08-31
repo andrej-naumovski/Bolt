@@ -8,10 +8,16 @@ import {Interest} from "../../shared/models/interest";
 })
 export class ProfileInterestsComponent implements OnInit {
   private _interests: Array<Interest>;
+  private _isCurrentUser: boolean;
 
   @Input()
   set interests(interests: Array<Interest>) {
     this._interests = interests || [];
+  }
+
+  @Input()
+  set currentUser(currentUser: boolean) {
+    this._isCurrentUser = currentUser;
   }
 
   constructor() { }

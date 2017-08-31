@@ -12,4 +12,7 @@
       <li *ngIf="this._user.contact.phone">Phone no: <span>{{this._user.contact.phone}}</span></li>
     </ul>
   </md-card-content>
+  <md-card-actions *ngIf="this._isCurrentUser">
+    <button md-button color="accent">EDIT</button>
+  </md-card-actions>
 </md-card>

@@ -20,3 +20,8 @@ md-card-content {
   padding-top: 8px;
   padding-bottom: 8px;
 }
+
+md-card-actions {
+  text-align: left;
+  margin-left: 0;
+}

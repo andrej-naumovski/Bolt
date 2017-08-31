@@ -7,11 +7,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
 import {RegisterUser} from "../../models/register.user";
+import {CacheService} from "ng2-cache";
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private cacheService: CacheService) {
   }
 
   login(username: string, password: string): Observable<any> {
@@ -39,5 +40,9 @@ export class AuthService {
         console.log(error);
         return Observable.throw(error || "Server error");
       });
+  }
+
+  isLoggedIn(): boolean {
+    return this.cacheService.get('token');
   }
 }
