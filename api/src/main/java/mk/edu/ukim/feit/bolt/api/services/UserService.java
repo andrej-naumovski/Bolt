@@ -13,4 +13,6 @@ public interface UserService {
     List<User> findAll();
     User saveUser(User user);
     void deleteUser(Long id);
+    boolean userSentRequest(String currUserUsername, String userToCheckUsername);
+    boolean userReceivedRequest(String currUserUsername, String userToCheckUsername);
 }

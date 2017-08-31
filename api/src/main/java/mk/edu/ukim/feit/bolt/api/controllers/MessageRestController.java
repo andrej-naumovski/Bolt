@@ -46,7 +46,7 @@ public class MessageRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteMessage(@PathVariable Long id){
         messageService.delete(id);
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(),"Message successfully deleted"),HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(),"Message successfully deleted"),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}/last", method = RequestMethod.GET)

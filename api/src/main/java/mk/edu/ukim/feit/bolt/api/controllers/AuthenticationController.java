@@ -85,7 +85,7 @@ public class AuthenticationController {
         if(userService.findByUsername(user.getUsername()) != null) {
             logger.info(String.format("User with username %s already exists.", user.getUsername()));
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.CONFLICT.value(), "A user with that username already exists!"),
+                    new GenericResponse<>(HttpStatus.CONFLICT.value(), "A user with that username already exists!"),
                     HttpStatus.CONFLICT
             );
         }
@@ -98,7 +98,7 @@ public class AuthenticationController {
                 || user.getPassword().length() < 6) {
             logger.info(String.format("Attempted register by user %s has incomplete data.", user.getUsername()));
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Invalid or incomplete data."),
+                    new GenericResponse<>(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Invalid or incomplete data."),
                     HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -114,7 +114,7 @@ public class AuthenticationController {
         if(newUser == null) {
             logger.error(String.format("Server error while registering user %s.", user.getUsername()));
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse processing your data. Please try again."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> processing your data. Please try again."),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -150,18 +150,18 @@ public class AuthenticationController {
             passwordResetToken = authenticationService.generatePasswordResetToken(username);
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
+                    new GenericResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage()),
                     HttpStatus.NOT_FOUND
             );
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Cannot generate reset token at this time, please try again."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Cannot generate reset token at this time, please try again."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
         mailService.sendPasswordResetEmail(mailService.generatePasswordResetEmail(passwordResetToken));
         return new ResponseEntity<>(
-                new GenericResponse(
+                new GenericResponse<>(
                         HttpStatus.OK.value(), "An email containing the password reset URL has been sent to your email. Please check your inbox for further instructions."
                 ),
                 HttpStatus.OK
@@ -172,13 +172,13 @@ public class AuthenticationController {
     public ResponseEntity validateResetToken(@RequestParam String token) {
         if(authenticationService.isTokenValid(token)) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.OK.value(), "Token is valid."),
+                    new GenericResponse<>(HttpStatus.OK.value(), "Token is valid."),
                     HttpStatus.OK
             );
         }
         authenticationService.deletePasswordResetToken(token);
         return new ResponseEntity<>(
-                new GenericResponse(HttpStatus.BAD_REQUEST.value(), "Password reset token expired."),
+                new GenericResponse<>(HttpStatus.BAD_REQUEST.value(), "Password reset token expired."),
                 HttpStatus.BAD_REQUEST
         );
     }
@@ -189,13 +189,13 @@ public class AuthenticationController {
             authenticationService.resetPassword(token, password);
         } catch(UserNotFoundException e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
+                    new GenericResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage()),
                     HttpStatus.NOT_FOUND
             );
         }
         authenticationService.deletePasswordResetToken(token);
         return new ResponseEntity<>(
-                new GenericResponse(HttpStatus.OK.value(), "Password successfully reset. Please log in to continue."),
+                new GenericResponse<>(HttpStatus.OK.value(), "Password successfully reset. Please log in to continue."),
                 HttpStatus.OK
         );
     }

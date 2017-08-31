@@ -65,4 +65,34 @@ public class UserServiceImpl implements ServiceScanMarker, UserService, UserDeta
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public boolean userSentRequest(String currUserUsername, String userToCheckUsername) {
+        User currUser = findByUsername(currUserUsername);
+        User userToCheck = findByUsername(userToCheckUsername);
+        boolean found = false;
+        for(int i = 0; i < currUser.getFriendRequestsSent().size(); i++) {
+            if(currUser.getFriendRequestsSent().contains(userToCheck)) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
+    }
+
+    @Override
+    public boolean userReceivedRequest(String currUserUsername, String userToCheckUsername) {
+        User currUser = findByUsername(currUserUsername);
+        User userToCheck = findByUsername(userToCheckUsername);
+        boolean found = false;
+        for(int i = 0; i < currUser.getFriendRequestsReceived().size(); i++) {
+            if(currUser.getFriendRequestsSent().contains(userToCheck)) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
+    }
 }

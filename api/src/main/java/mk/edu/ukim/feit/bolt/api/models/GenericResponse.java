@@ -3,11 +3,11 @@ package mk.edu.ukim.feit.bolt.api.models;
 /**
  * Created by andrejnaumovski on 8/9/17.
  */
-public class GenericResponse {
+public class GenericResponse<T> {
     private int statusCode;
-    private String message;
+    private T message;
 
-    public GenericResponse(int statusCode, String message) {
+    public GenericResponse(int statusCode, T message) {
         this.statusCode = statusCode;
         this.message = message;
     }
@@ -20,11 +20,11 @@ public class GenericResponse {
         this.statusCode = statusCode;
     }
 
-    public String getMessage() {
+    public T getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(T message) {
         this.message = message;
     }
 }

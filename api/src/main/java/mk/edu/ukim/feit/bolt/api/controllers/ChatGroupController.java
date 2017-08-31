@@ -39,7 +39,7 @@ public class ChatGroupController {
         ChatGroup group = chatGroupService.findByName(name);
         if(group == null) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.NOT_FOUND.value(), String.format("ChatGroup with name %s does not exist.", name)),
+                    new GenericResponse<>(HttpStatus.NOT_FOUND.value(), String.format("ChatGroup with name %s does not exist.", name)),
                     HttpStatus.NOT_FOUND
             );
         }
@@ -54,7 +54,7 @@ public class ChatGroupController {
             savedGroup = chatGroupService.save(group);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "The group could not be created at this time. Please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "The group could not be created at this time. Please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -68,12 +68,12 @@ public class ChatGroupController {
             chatGroupService.delete(id);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "The group could not be deleted at this time. Please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "The group could not be deleted at this time. Please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
         return new ResponseEntity<>(
-                new GenericResponse(HttpStatus.OK.value(), "The group has been deleted."),
+                new GenericResponse<>(HttpStatus.OK.value(), "The group has been deleted."),
                 HttpStatus.OK
         );
     }

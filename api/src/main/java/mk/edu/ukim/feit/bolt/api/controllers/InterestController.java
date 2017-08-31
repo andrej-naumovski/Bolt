@@ -54,6 +54,6 @@ public class InterestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deleteInterest(@PathVariable Long id){
         interestService.delete(id);
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 }

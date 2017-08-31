@@ -50,7 +50,7 @@ public class FriendshipController {
             friendshipService.sendFriendRequest(senderUsername, username);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse sending request, please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> sending request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -71,7 +71,7 @@ public class FriendshipController {
             friendshipService.acceptFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse accepting request, please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> accepting request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -92,7 +92,7 @@ public class FriendshipController {
             friendshipService.declineFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse declining request, please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> declining request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
