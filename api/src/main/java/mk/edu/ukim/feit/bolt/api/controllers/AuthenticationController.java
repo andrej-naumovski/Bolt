@@ -176,10 +176,9 @@ public class AuthenticationController {
                     HttpStatus.OK
             );
         }
-        authenticationService.deletePasswordResetToken(token);
         return new ResponseEntity<>(
-                new GenericResponse<>(HttpStatus.BAD_REQUEST.value(), false),
-                HttpStatus.BAD_REQUEST
+                new GenericResponse<>(HttpStatus.OK.value(), false),
+                HttpStatus.OK
         );
     }
 
