@@ -13,4 +13,7 @@ public interface InterestService {
     List<Interest> findAll();
     Interest save(Interest interest);
     void delete(Long id);
+    List<Interest> findInterestsByUserUsername(String username);
+    void addInterestToUser(String username, String interestName);
+    void deleteInterestFromUser(String username, String interestName);
 }
