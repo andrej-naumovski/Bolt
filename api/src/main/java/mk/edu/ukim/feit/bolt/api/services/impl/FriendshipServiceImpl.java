@@ -127,4 +127,17 @@ public class FriendshipServiceImpl implements FriendshipService {
             }
         }
     }
+
+    @Override
+    public void deleteFriend(String senderUsername, String receiverUsername) throws Exception {
+        User senderUser = userRepository.findByUsername(senderUsername);
+        User receiverUser = userRepository.findByUsername(receiverUsername);
+        if(senderUser.getFriends().contains(receiverUser) &&
+                receiverUser.getFriends().contains(senderUser)) {
+            senderUser.getFriends().remove(receiverUser);
+            receiverUser.getFriends().remove(senderUser);
+            userRepository.save(senderUser);
+            userRepository.save(receiverUser);
+        }
+    }
 }

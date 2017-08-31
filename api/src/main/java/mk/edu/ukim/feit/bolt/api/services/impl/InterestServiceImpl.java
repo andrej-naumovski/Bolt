@@ -1,11 +1,15 @@
 package mk.edu.ukim.feit.bolt.api.services.impl;
 
 import mk.edu.ukim.feit.bolt.api.models.Interest;
+import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.repositories.InterestRepository;
+import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.InterestService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gjorgjim on 8/14/17.
@@ -13,10 +17,14 @@ import java.util.List;
 @Service
 public class InterestServiceImpl implements InterestService {
     private InterestRepository interestRepository;
+    private UserRepository userRepository;
 
     public InterestServiceImpl(InterestRepository interestRepository) {
         if(interestRepository == null) {
             throw new IllegalArgumentException(InterestRepository.class.getName() + " cannot be null");
+        }
+        if(userRepository == null) {
+            throw new IllegalArgumentException(UserRepository.class.getName() + " cannot be null");
         }
         this.interestRepository = interestRepository;
     }
@@ -44,5 +52,27 @@ public class InterestServiceImpl implements InterestService {
     @Override
     public void delete(Long id) {
         interestRepository.delete(id);
+    }
+
+    @Override
+    public List<Interest> findInterestsByUserUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return new ArrayList<>(user.getInterests());
+    }
+
+    @Override
+    public void addInterestToUser(String username, String interestName) {
+        Interest interest = interestRepository.findByName(interestName);
+        User user = userRepository.findByUsername(username);
+        user.getInterests().add(interest);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteInterestFromUser(String username, String interestName) {
+        User user = userRepository.findByUsername(username);
+        Interest interest = interestRepository.findByName(interestName);
+        user.getInterests().remove(interest);
+        userRepository.save(user);
     }
 }

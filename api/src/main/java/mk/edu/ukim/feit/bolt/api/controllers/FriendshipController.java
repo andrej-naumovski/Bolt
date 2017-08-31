@@ -98,4 +98,21 @@ public class FriendshipController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteFriend(@PathVariable String username,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response) {
+        String token = tokenHelper.getToken(request);
+        String receiverUsername = tokenHelper.getUsernameFromToken(token);
+        try {
+            friendshipService.deleteFriend(username, receiverUsername);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> declining request, please try again later."),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
