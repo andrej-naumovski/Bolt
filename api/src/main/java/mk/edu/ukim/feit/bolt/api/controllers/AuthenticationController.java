@@ -172,14 +172,13 @@ public class AuthenticationController {
     public ResponseEntity validateResetToken(@RequestParam String token) {
         if(authenticationService.isTokenValid(token)) {
             return new ResponseEntity<>(
-                    new GenericResponse<>(HttpStatus.OK.value(), "Token is valid."),
+                    new GenericResponse<>(HttpStatus.OK.value(), true),
                     HttpStatus.OK
             );
         }
-        authenticationService.deletePasswordResetToken(token);
         return new ResponseEntity<>(
-                new GenericResponse<>(HttpStatus.BAD_REQUEST.value(), "Password reset token expired."),
-                HttpStatus.BAD_REQUEST
+                new GenericResponse<>(HttpStatus.OK.value(), false),
+                HttpStatus.OK
         );
     }
 
