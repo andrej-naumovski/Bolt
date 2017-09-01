@@ -6,7 +6,9 @@ import mk.edu.ukim.feit.bolt.api.services.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -139,5 +141,15 @@ public class FriendshipServiceImpl implements FriendshipService {
             userRepository.save(senderUser);
             userRepository.save(receiverUser);
         }
+    }
+
+    @Override
+    public List<User> friendRequestsSent(String username) {
+        return new ArrayList<>(userRepository.findByUsername(username).getFriendRequestsSent());
+    }
+
+    @Override
+    public List<User> friendRequestsReceived(String username) {
+        return new ArrayList<>(userRepository.findByUsername(username).getFriendRequestsReceived());
     }
 }

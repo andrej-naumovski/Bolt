@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
 import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
+import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
 import mk.edu.ukim.feit.bolt.api.services.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by gjorgjim on 8/9/17.
@@ -114,5 +116,23 @@ public class FriendshipController {
             );
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/sent", method = RequestMethod.GET)
+    public ResponseEntity friendRequestsSent(HttpServletRequest request, HttpServletResponse response) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
+        List<User> userList = friendshipService.friendRequestsSent(username);
+
+        return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/received", method = RequestMethod.GET)
+    public ResponseEntity friendRequestsReceived(HttpServletRequest request, HttpServletResponse response) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
+        List<User> userList = friendshipService.friendRequestsReceived(username);
+
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 }
