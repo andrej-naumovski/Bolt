@@ -10,7 +10,7 @@
 </div>
 <div class="row">
   <div class="col-md-2 col-xs-8 col-xs-offset-2 col-md-offset-5">
-    <button *ngIf="!this.isCurrentUser" md-raised-button color="accent">SEND FRIEND REQUEST</button>
+    <button [disabled]="this.isFriendRequestSent" *ngIf="!this.isCurrentUser" (click)="sendFriendRequest()" md-raised-button color="accent">{{this.buttonValue}}</button>
   </div>
 </div>
 <div class="row vert-offset-top-1">

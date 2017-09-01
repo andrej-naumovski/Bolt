@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
             this.cacheService.remove('token');
             this.cacheService.remove('username');
           }
+          console.log(document.cookie);
           this.cacheService.set('token', response);
           this.cacheService.set('username', this.loginForm.controls.username.value);
           console.log(this.cookieService.get('XSRF-TOKEN'));

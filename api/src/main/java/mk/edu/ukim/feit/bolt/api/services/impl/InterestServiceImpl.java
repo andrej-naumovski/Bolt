@@ -19,7 +19,7 @@ public class InterestServiceImpl implements InterestService {
     private InterestRepository interestRepository;
     private UserRepository userRepository;
 
-    public InterestServiceImpl(InterestRepository interestRepository) {
+    public InterestServiceImpl(InterestRepository interestRepository, UserRepository userRepository) {
         if(interestRepository == null) {
             throw new IllegalArgumentException(InterestRepository.class.getName() + " cannot be null");
         }
@@ -27,6 +27,7 @@ public class InterestServiceImpl implements InterestService {
             throw new IllegalArgumentException(UserRepository.class.getName() + " cannot be null");
         }
         this.interestRepository = interestRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
