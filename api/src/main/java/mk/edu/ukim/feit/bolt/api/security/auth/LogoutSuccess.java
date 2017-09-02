@@ -36,5 +36,6 @@ public class LogoutSuccess implements LogoutSuccessHandler {
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.getWriter().write(objectMapper.writeValueAsString(result));
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
     }
 }

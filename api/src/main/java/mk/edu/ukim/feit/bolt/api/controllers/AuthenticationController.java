@@ -77,6 +77,13 @@ public class AuthenticationController {
         this.authorityService = authorityService;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
+    public void loginCorsOptions(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization,x-xsrf-token");
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity registerUser(@RequestBody User user) {
         logger.info(String.format("Attempted registration by %s", user.toString()));

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from "../../shared/models/user";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CacheService} from "ng2-cache";
 import {ProfileService} from "../../shared/services/profile-service/profile.service";
 import {GenericResponse} from "../../shared/models/generic.response";
+import {FriendshipService} from "../../shared/services/friendship-service/friendship.service";
+import {AuthService} from "../../shared/services/auth-service/auth.service";
 
 @Component({
   selector: 'app-profile-overview',
@@ -13,15 +15,19 @@ import {GenericResponse} from "../../shared/models/generic.response";
 export class ProfileOverviewComponent implements OnInit {
   private profile: User;
   private isCurrentUser: boolean;
+  private isFriendsWith: boolean;
   private isFriendRequestSent: boolean;
   private isFriendRequestReceived: boolean;
-  private buttonValue: string;
+  private successMessage: string;
+  private errorMessage: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private cacheService: CacheService,
-    private profileService: ProfileService
-  ) { }
+  constructor(private route: ActivatedRoute,
+              private cacheService: CacheService,
+              private profileService: ProfileService,
+              private friendshipService: FriendshipService,
+              private authService: AuthService,
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.profile = this.route.snapshot.data['profile'];
@@ -29,18 +35,7 @@ export class ProfileOverviewComponent implements OnInit {
     this.isCurrentUser = this.route.snapshot.paramMap.get('username') === this.cacheService.get('username');
     this.isFriendRequestSent = (<GenericResponse<boolean>>this.route.snapshot.data['hasSentRequest']).message;
     this.isFriendRequestReceived = (<GenericResponse<boolean>>this.route.snapshot.data['hasReceivedRequest']).message;
-    if(!this.isCurrentUser) {
-      if (this.isFriendRequestReceived) {
-        this.buttonValue = 'ACCEPT FRIEND REQUEST';
-      }
-      else if (this.isFriendRequestSent) {
-        this.buttonValue = 'FRIEND REQUEST PENDING';
-      } else {
-        this.buttonValue = 'SEND FRIEND REQUEST';
-      }
-    } else {
-      this.buttonValue = 'SEND FRIEND REQUEST';
-    }
+    this.isFriendsWith = (<GenericResponse<boolean>>this.route.snapshot.data['isFriendsWith']).message;
   }
 
   sendFriendRequest() {
@@ -51,13 +46,78 @@ export class ProfileOverviewComponent implements OnInit {
         (response) => {
           console.log(response);
           this.isFriendRequestSent = true;
-          this.buttonValue = 'FRIEND REQUEST SENT'
         },
         (error) => {
           let err = <GenericResponse<string>> error;
           console.log(err);
         }
+      );
+  }
+
+  acceptFriendRequest() {
+    let friendUsername = this.route.snapshot.paramMap.get('username');
+    this.friendshipService
+      .acceptFriendRequest(friendUsername)
+      .subscribe(
+        (response) => {
+          let res = <GenericResponse<string>> response;
+          this.successMessage = res.message;
+          this.errorMessage = null;
+        },
+        (error) => {
+          let err = <GenericResponse<string>> error;
+          this.errorMessage = err.message;
+          this.successMessage = null;
+        }
+      );
+  }
+
+  declineFriendRequest() {
+    let friendUsername = this.route.snapshot.paramMap.get('username');
+    this.friendshipService
+      .declineFriendRequest(friendUsername)
+      .subscribe(
+        (response) => {
+          let res = <GenericResponse<string>> response;
+          this.successMessage = res.message;
+          this.errorMessage = null;
+        },
+        (error) => {
+          let err = <GenericResponse<string>> error;
+          this.errorMessage = err.message;
+          this.successMessage = null;
+        }
+      );
+  }
+
+  deleteFriend() {
+    let friendUsername = this.route.snapshot.paramMap.get('username');
+    this.friendshipService
+      .deleteFriend(friendUsername)
+      .subscribe(
+        (response) => {
+          this.successMessage = "Successfully deleted friend";
+          this.errorMessage = null;
+        },
+        (error) => {
+          let err = <GenericResponse<string>> error;
+          this.errorMessage = err.message;
+          this.successMessage = null;
+        }
       )
   }
 
+  logout() {
+    this.authService
+      .logout()
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.router.navigateByUrl('/auth/login');
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+  }
 }

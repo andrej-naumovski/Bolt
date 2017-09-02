@@ -18,4 +18,23 @@ export class FriendshipService {
       .get(environment.api + '/users/requests/received/' + username);
   }
 
+  isFriendsWith(username: string): Observable<any> {
+    return this.http
+      .get(environment.api + '/friends/' + username + '/check');
+  }
+
+  acceptFriendRequest(username: string): Observable<any> {
+    return this.http
+      .post(environment.api + '/friends/accept/' + username, {});
+  }
+
+  declineFriendRequest(username: string): Observable<any> {
+    return this.http
+      .post(environment.api + '/friends/decline/' + username, {});
+  }
+
+  deleteFriend(username: string): Observable<any> {
+    return this.http
+      .delete(environment.api + '/friends/delete/' + username);
+  }
 }

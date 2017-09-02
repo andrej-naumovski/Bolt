@@ -1,5 +1,8 @@
 <div class="top">
   <div class="header mat-elevation-z8">
+    <div class="logout col-md-2 col-xs-4 col-md-offset-10 col-xs-offset-8">
+      <button class="logout" md-button (click)="logout()">SIGN OUT</button>
+    </div>
   </div>
   <img src="../../../assets/artist-placeholder.png" class="mat-elevation-z8 img-responsive img-circle profile-picture">
 </div>
@@ -9,8 +12,25 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-2 col-xs-8 col-xs-offset-2 col-md-offset-5">
-    <button [disabled]="this.isFriendRequestSent" *ngIf="!this.isCurrentUser" (click)="sendFriendRequest()" md-raised-button color="accent">{{this.buttonValue}}</button>
+  <div class="col-md-4 col-xs-8 col-xs-offset-2 col-md-offset-4">
+    <button *ngIf="!this.isCurrentUser && !this.isFriendsWith && !this.isFriendRequestSent && !this.isFriendRequestReceived"
+            (click)="sendFriendRequest()" md-raised-button color="accent">SEND FRIEND REQUEST</button>
+    <button *ngIf="!this.isCurrentUser && this.isFriendsWith && !this.isFriendRequestSent && !this.isFriendRequestReceived"
+            (click)="sendMessage()" md-raised-button color="accent">SEND MESSAGE</button>
+    <button *ngIf="!this.isCurrentUser && this.isFriendsWith && !this.isFriendRequestSent && !this.isFriendRequestReceived"
+            (click)="deleteFriend()" md-raised-button color="warn">DELETE FRIEND</button>
+    <button *ngIf="!this.isCurrentUser && !this.isFriendsWith && this.isFriendRequestSent && !this.isFriendRequestReceived"
+            disabled="disabled" md-raised-button color="accent">FRIEND REQUEST PENDING</button>
+    <button *ngIf="!this.isCurrentUser && !this.isFriendsWith && !this.isFriendRequestSent && this.isFriendRequestReceived"
+            (click)="acceptFriendRequest()" md-raised-button color="accent">ACCEPT FRIEND REQUEST</button>
+    <button *ngIf="!this.isCurrentUser && !this.isFriendsWith && !this.isFriendRequestSent && this.isFriendRequestReceived"
+            (click)="declineFriendRequest()" md-raised-button color="warn">DECLINE FRIEND REQUEST</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-xs-8 col-xs-offset-2 col-md-offset-3">
+    <p class="error" *ngIf="this.errorMessage">{{this.errorMessage}}</p>
+    <p class="success" *ngIf="this.successMessage">{{this.successMessage}}</p>
   </div>
 </div>
 <div class="row vert-offset-top-1">

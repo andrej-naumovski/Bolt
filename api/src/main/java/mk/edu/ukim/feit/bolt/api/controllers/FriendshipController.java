@@ -74,11 +74,12 @@ public class FriendshipController {
             friendshipService.acceptFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> accepting request, please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error accepting request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Friendship request accepted."),
+                HttpStatus.OK);
     }
 
     @RequestMapping(value = "/decline/{username}", method = RequestMethod.POST)
@@ -95,14 +96,16 @@ public class FriendshipController {
             friendshipService.declineFriendRequest(username, receiverUsername);
         } catch (Exception e) {
             return new ResponseEntity<>(
-                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "GenericResponse<> declining request, please try again later."),
+                    new GenericResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error declining request, please try again later."),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Friendship request declined."),
+                HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteFriend(@PathVariable String username,
                                        HttpServletRequest request,
                                        HttpServletResponse response) {
@@ -137,7 +140,8 @@ public class FriendshipController {
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{username}/check")
+    @RequestMapping(value = "/{username}/check", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity isFriendWith(@PathVariable String username,
                                        HttpServletResponse response,
                                        HttpServletRequest request) {

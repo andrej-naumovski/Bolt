@@ -18,7 +18,7 @@ export class AuthenticatedInterceptor implements HttpInterceptor {
         .set('Authorization', bearer + <Token>this.cacheService.get('token').accessToken),
       withCredentials: true
     });
-    if(req.method == 'POST') {
+    if(req.method != 'GET') {
       changedReq = changedReq.clone({
         params: req.params.set('_csrf', document.cookie.split('=')[1])
       });

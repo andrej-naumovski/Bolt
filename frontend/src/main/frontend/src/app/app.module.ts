@@ -21,6 +21,7 @@ import {CookieService} from "ngx-cookie-service";
 import {FriendshipService} from "./shared/services/friendship-service/friendship.service";
 import {SentRequestResolve} from "./shared/resolvers/sent.request.resolve";
 import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolve";
+import {FriendshipStatusResolve} from "./shared/resolvers/friendship.status.resolve";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolv
     },
     FriendshipService,
     SentRequestResolve,
-    ReceivedRequestResolve
+    ReceivedRequestResolve,
+    FriendshipStatusResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

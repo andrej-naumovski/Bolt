@@ -2,7 +2,7 @@
   width: 100%;
   height: 96px;
   background: #0288D1;
-  z-index: -1;
+  z-index: 0;
   position: absolute;
   display: inline-block;
   left: 0px;
@@ -32,10 +32,22 @@ h1 {
   font-weight: 200;
 }
 
+p {
+  font-weight: 200;
+}
+
 .profile-info {
   margin-bottom: 8px;
 }
 
 .profile-interests {
   margin-top: 8px;
+}
+
+.error {
+  color: red !important;
+}
+
+.logout {
+  padding: 0;
 }

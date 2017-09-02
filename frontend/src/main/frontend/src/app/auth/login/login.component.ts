@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth-service/auth.service";
 import {MdDialog} from "@angular/material";
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(document.cookie);
     this.loginFailed = false;
     if(this.cacheService.get('token')) {
       this.router.navigateByUrl('profile/' + this.cacheService.get('username'));

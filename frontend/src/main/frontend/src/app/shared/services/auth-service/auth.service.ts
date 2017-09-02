@@ -87,4 +87,11 @@ export class AuthService {
         return Observable.throw(error || 'Server error');
       });
   }
+
+  logout(): Observable<any> {
+    this.cacheService.remove('token');
+    this.cacheService.remove('username');
+    return this.http
+      .get(environment.api + '/auth/logout');
+  }
 }
