@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {CacheService} from "ng2-cache";
 
 @Component({
   selector: 'app-messages',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessagesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private cacheService: CacheService) { }
 
   ngOnInit() {
+    console.log("MESSAGES COMPONENT");
+  }
+
+  goBack() {
+    this.router.navigateByUrl('/profile/' + this.cacheService.get('username'));
   }
 
 }

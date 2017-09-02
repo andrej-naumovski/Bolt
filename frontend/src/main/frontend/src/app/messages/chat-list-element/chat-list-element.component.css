@@ -1,0 +1,30 @@
+button {
+  padding: 0;
+}
+
+md-card {
+  padding: 12px;
+}
+
+md-card-content {
+  text-align: left;
+}
+
+md-card-actions {
+  display: inline;
+  position: absolute;
+  right: 16px;
+  bottom: 3px;
+  text-align: right;
+}
+
+.img-responsive {
+  width: 10%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+h4 {
+  display: inline;
+  font-weight: 200 !important;
+}

@@ -12,7 +12,7 @@ const routes:Routes = [
   },
   {
     path: 'messages',
-    loadChildren: 'app/profile/profile.module#ProfileModule',
+    loadChildren: 'app/messages/messages.module#MessagesModule',
     canActivate: [AuthGuard]
   },
   {path: '', redirectTo: 'auth', pathMatch: 'full'},

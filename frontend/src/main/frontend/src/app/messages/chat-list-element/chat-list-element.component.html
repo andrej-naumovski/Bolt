@@ -1,3 +1,10 @@
-<p>
-  chat-list-element works!
-</p>
+<md-card>
+  <md-card-content>
+    <img [src]="this._user.photoUrl" class="img-responsive img-circle">
+    <h4>{{this._user.firstName + ' ' + this._user.lastName}}</h4>
+    <span class="empty-space"></span>
+    <md-card-actions>
+      <button md-button (click)="openChat()" color="accent">OPEN</button>
+    </md-card-actions>
+  </md-card-content>
+</md-card>

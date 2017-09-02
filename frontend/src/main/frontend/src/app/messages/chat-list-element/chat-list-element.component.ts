@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {User} from "../../shared/models/user";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-chat-list-element',
+  selector: 'chat-list-element',
   templateUrl: './chat-list-element.component.html',
   styleUrls: ['./chat-list-element.component.css']
 })
 export class ChatListElementComponent implements OnInit {
+  private _user: User;
 
-  constructor() { }
+  @Input()
+  set user(user: User) {
+    this._user = user;
+  }
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    if(this._user.photoUrl == null) {
+      this._user.photoUrl = '../../../assets/artist-placeholder.png';
+    }
+  }
+
+  openChat() {
+    this.router.navigateByUrl('/messages/' + this._user.username);
   }
 
 }
