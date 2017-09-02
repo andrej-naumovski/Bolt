@@ -71,7 +71,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         } else {
             SecurityContextHolder.getContext().setAuthentication(new AnonAuthentication());
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 

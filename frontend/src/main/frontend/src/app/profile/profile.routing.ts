@@ -2,13 +2,17 @@ import {RouterModule, Routes} from "@angular/router";
 import {ModuleWithProviders} from "@angular/core";
 import {ProfileOverviewComponent} from "./profile-overview/profile-overview.component";
 import {UserResolve} from "../shared/resolvers/user.resolve";
+import {SentRequestResolve} from "../shared/resolvers/sent.request.resolve";
+import {ReceivedRequestResolve} from "../shared/resolvers/received.request.resolve";
 
 const routes:Routes = [
   {
     path: ':username',
     component: ProfileOverviewComponent,
     resolve: {
-      'profile': UserResolve
+      'profile': UserResolve,
+      'hasSentRequest': SentRequestResolve,
+      'hasReceivedRequest': ReceivedRequestResolve
     }
   },
   {

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../shared/services/auth-service/auth.service";
 import {GenericResponse} from "../../shared/models/generic.response";
+import {MdDialog} from "@angular/material";
+import {LoadingDialogComponent} from "../../shared/components/loading-dialog/loading-dialog.component";
 
 @Component({
   selector: 'app-reset-password',
@@ -16,8 +18,13 @@ export class ResetPasswordComponent implements OnInit {
   newPassword: string;
   token: string;
   message: string;
+  error: string;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private dialog: MdDialog
+  ) { }
 
   ngOnInit() {
     this.isPasswordReset = false;
@@ -36,15 +43,20 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   requestPasswordResetToken() {
+    let dialogRef = this.dialog.open(LoadingDialogComponent);
     console.log('clicked');
     this.authService
       .requestPasswordResetToken(this.username)
       .subscribe(
         (res) => {
-          console.log(res);
+          dialogRef.close();
+          let response = <GenericResponse<string>> res;
+          this.message = response.message;
         },
         (err) => {
-          console.log(err);
+          dialogRef.close();
+          let error = <GenericResponse<string>> err;
+          this.error = error.message;
         }
       );
   }

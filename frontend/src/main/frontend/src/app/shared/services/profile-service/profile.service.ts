@@ -18,4 +18,9 @@ export class ProfileService {
       .get(environment.api + '/users/' + username);
   }
 
+  sendFriendRequest(username: string): Observable<any> {
+    return this.http
+      .post(environment.api + '/friends/add/' + username, {});
+  }
+
 }

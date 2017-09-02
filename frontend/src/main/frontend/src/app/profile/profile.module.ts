@@ -17,6 +17,7 @@ import { ProfileInterestsComponent } from './profile-interests/profile-interests
     routing
   ],
   declarations: [ProfileComponent, ProfileOverviewComponent, ProfileInfoComponent, ProfileInterestsComponent],
-  providers: []
+  providers: [
+  ]
 })
 export class ProfileModule { }

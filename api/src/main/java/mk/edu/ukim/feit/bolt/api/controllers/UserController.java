@@ -4,6 +4,8 @@ import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
 import mk.edu.ukim.feit.bolt.api.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
@@ -23,15 +26,21 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     private UserService userService;
     private TokenHelper tokenHelper;
 
     @Autowired
-    UserController(UserService userService) {
+    UserController(UserService userService, TokenHelper tokenHelper) {
         if(userService == null) {
             throw new IllegalArgumentException(UserService.class.getName() + " cannot be null.");
         }
+        if(tokenHelper == null) {
+            throw new IllegalArgumentException(TokenHelper.class.getName() + " cannot be null.");
+        }
         this.userService = userService;
+        this.tokenHelper = tokenHelper;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -94,12 +103,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/requests/sent/{username}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity userSentRequest(@PathVariable String username,
                                           HttpServletRequest request,
                                           HttpServletResponse response) {
         String token = tokenHelper.getToken(request);
-        String userToCheckUsername = tokenHelper.getUsernameFromToken(token);
-        if(userService.userSentRequest(username, userToCheckUsername)) {
+        String currUser = tokenHelper.getUsernameFromToken(token);
+        if(userService.userSentRequest(currUser, username)) {
             return new ResponseEntity<>(
                     new GenericResponse<>(HttpStatus.OK.value(), true)
                     , HttpStatus.OK);
@@ -110,12 +120,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/requests/received/{username}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity userReceivedRequest(@PathVariable String username,
                                           HttpServletRequest request,
                                           HttpServletResponse response) {
         String token = tokenHelper.getToken(request);
-        String userToCheckUsername = tokenHelper.getUsernameFromToken(token);
-        if(userService.userReceivedRequest(username, userToCheckUsername)) {
+        String currUser = tokenHelper.getUsernameFromToken(token);
+        if(userService.userReceivedRequest(currUser, username)) {
             return new ResponseEntity<>(
                     new GenericResponse<>(HttpStatus.OK.value(), true)
                     , HttpStatus.OK);

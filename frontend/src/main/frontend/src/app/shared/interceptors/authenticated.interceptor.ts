@@ -10,10 +10,20 @@ export class AuthenticatedInterceptor implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('Intercepting here');
-    const changedReq = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer ' + <Token>this.cacheService.get('token').accessToken)
+    console.log('Interceptor');
+    let bearer = 'Bearer ';
+    console.log(document.cookie);
+    let changedReq = req.clone({
+      headers: req.headers
+        .set('Authorization', bearer + <Token>this.cacheService.get('token').accessToken),
+      withCredentials: true
     });
+    if(req.method == 'POST') {
+      changedReq = changedReq.clone({
+        params: req.params.set('_csrf', document.cookie.split('=')[1])
+      });
+    }
+    console.log(changedReq.headers.get('Authorization'));
     return next.handle(changedReq);
   }
 }
