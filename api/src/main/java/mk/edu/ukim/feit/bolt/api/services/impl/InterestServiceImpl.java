@@ -7,6 +7,7 @@ import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.InterestService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -62,9 +63,12 @@ public class InterestServiceImpl implements InterestService {
     }
 
     @Override
-    public void addInterestToUser(String username, String interestName) {
+    public void addInterestToUser(String username, String interestName) throws EntityExistsException {
         Interest interest = interestRepository.findByName(interestName);
         User user = userRepository.findByUsername(username);
+        if(user.getInterests().contains(interest)) {
+            throw new EntityExistsException();
+        }
         user.getInterests().add(interest);
         userRepository.save(user);
     }

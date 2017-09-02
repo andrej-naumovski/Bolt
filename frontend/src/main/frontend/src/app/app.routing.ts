@@ -10,6 +10,11 @@ const routes:Routes = [
     loadChildren: 'app/profile/profile.module#ProfileModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'messages',
+    loadChildren: 'app/profile/profile.module#ProfileModule',
+    canActivate: [AuthGuard]
+  },
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
   {path: '**', redirectTo: '404'},
   {path: '404', component: NotFoundComponent}

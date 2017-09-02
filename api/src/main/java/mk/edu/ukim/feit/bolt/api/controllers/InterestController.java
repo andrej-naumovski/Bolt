@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,17 +21,21 @@ import java.util.List;
  * Created by gjorgjim on 8/14/17.
  */
 @RestController
-@RequestMapping(value = "/interest", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/interests", produces = MediaType.APPLICATION_JSON_VALUE)
 public class InterestController {
     private InterestService interestService;
     private TokenHelper tokenHelper;
 
     @Autowired
-    InterestController(InterestService interestService) {
+    InterestController(InterestService interestService, TokenHelper tokenHelper) {
         if(interestService == null) {
             throw new IllegalArgumentException(InterestService.class.getName() + " cannot be null.");
         }
+        if(tokenHelper == null) {
+            throw new IllegalArgumentException(TokenHelper.class.getName() + " cannot be null.");
+        }
         this.interestService = interestService;
+        this.tokenHelper = tokenHelper;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -63,7 +68,7 @@ public class InterestController {
         return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
     public ResponseEntity getInterestsByUsername(@PathVariable String username) {
         List<Interest> interests = interestService.findInterestsByUserUsername(username);
         return new ResponseEntity<>(interests, HttpStatus.OK);
@@ -75,9 +80,17 @@ public class InterestController {
                                             HttpServletRequest request) {
         String token = tokenHelper.getToken(request);
         String username = tokenHelper.getUsernameFromToken(token);
-        interestService.addInterestToUser(username, interestName);
+        Interest interest = interestService.findByName(interestName);
+        try {
+            interestService.addInterestToUser(username, interestName);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(
+                    new GenericResponse<>(HttpStatus.CONFLICT.value(), "User already has interest."),
+                    HttpStatus.CONFLICT
+            );
+        }
         return new ResponseEntity<>(
-                new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully added to user"),
+                interest,
         HttpStatus.OK);
     }
 

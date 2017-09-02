@@ -2,6 +2,7 @@ package mk.edu.ukim.feit.bolt.api.services;
 
 import mk.edu.ukim.feit.bolt.api.models.Interest;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
 /**
@@ -14,6 +15,6 @@ public interface InterestService {
     Interest save(Interest interest);
     void delete(Long id);
     List<Interest> findInterestsByUserUsername(String username);
-    void addInterestToUser(String username, String interestName);
+    void addInterestToUser(String username, String interestName) throws EntityExistsException;
     void deleteInterestFromUser(String username, String interestName);
 }

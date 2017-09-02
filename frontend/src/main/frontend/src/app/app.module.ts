@@ -27,6 +27,9 @@ import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolv
 import {FriendshipStatusResolve} from "./shared/resolvers/friendship.status.resolve";
 import {InterestService} from "./shared/services/interest-service/interest.service";
 import {InterestResolve} from "./shared/resolvers/interest.resolve";
+import {ProfileModule} from "./profile/profile.module";
+import {MessagesModule} from "./messages/messages.module";
+import {MessageService} from "./shared/services/message-service/message.service";
 
 @NgModule({
   declarations: [
@@ -46,6 +49,8 @@ import {InterestResolve} from "./shared/resolvers/interest.resolve";
     MdProgressSpinnerModule,
     MdIconModule,
     AuthModule,
+    ProfileModule,
+    MessagesModule,
     routing
   ],
   providers: [AuthService, CacheService, CookieService, ProfileService, UserResolve, AuthGuard,
@@ -59,7 +64,8 @@ import {InterestResolve} from "./shared/resolvers/interest.resolve";
     ReceivedRequestResolve,
     FriendshipStatusResolve,
     InterestService,
-    InterestResolve
+    InterestResolve,
+    MessageService
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]
