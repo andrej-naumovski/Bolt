@@ -14,4 +14,5 @@ public interface FriendshipService {
     void deleteFriend(String senderUsername, String receiverUsername) throws Exception;
     List<User> friendRequestsSent(String username);
     List<User> friendRequestsReceived(String username);
+    boolean isFriendsWith(String userOneUsername, String userTwoUsername);
 }

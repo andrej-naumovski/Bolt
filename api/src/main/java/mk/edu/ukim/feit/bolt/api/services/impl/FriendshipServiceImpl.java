@@ -152,4 +152,11 @@ public class FriendshipServiceImpl implements FriendshipService {
     public List<User> friendRequestsReceived(String username) {
         return new ArrayList<>(userRepository.findByUsername(username).getFriendRequestsReceived());
     }
+
+    @Override
+    public boolean isFriendsWith(String userOneUsername, String userTwoUsername) {
+        return userRepository.findByUsername(userOneUsername).getFriends().contains(
+                userRepository.findByUsername(userTwoUsername)
+        );
+    }
 }

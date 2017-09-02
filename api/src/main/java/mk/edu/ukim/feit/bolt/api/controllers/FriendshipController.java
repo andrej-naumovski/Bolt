@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -134,5 +135,21 @@ public class FriendshipController {
         List<User> userList = friendshipService.friendRequestsReceived(username);
 
         return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{username}/check")
+    public ResponseEntity isFriendWith(@PathVariable String username,
+                                       HttpServletResponse response,
+                                       HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username2 = tokenHelper.getUsernameFromToken(token);
+        if(friendshipService.isFriendsWith(username, username2)) {
+            return new ResponseEntity<>(
+                    new GenericResponse<>(HttpStatus.OK.value(), true),
+            HttpStatus.OK);
+        }
+        return new ResponseEntity<>(
+                new GenericResponse<>(HttpStatus.OK.value(), false),
+        HttpStatus.OK);
     }
 }
