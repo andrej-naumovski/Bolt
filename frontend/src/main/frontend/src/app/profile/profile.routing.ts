@@ -5,6 +5,7 @@ import {UserResolve} from "../shared/resolvers/user.resolve";
 import {SentRequestResolve} from "../shared/resolvers/sent.request.resolve";
 import {ReceivedRequestResolve} from "../shared/resolvers/received.request.resolve";
 import {FriendshipStatusResolve} from "../shared/resolvers/friendship.status.resolve";
+import {InterestResolve} from "../shared/resolvers/interest.resolve";
 
 const routes:Routes = [
   {
@@ -14,7 +15,8 @@ const routes:Routes = [
       'profile': UserResolve,
       'hasSentRequest': SentRequestResolve,
       'hasReceivedRequest': ReceivedRequestResolve,
-      'isFriendsWith': FriendshipStatusResolve
+      'isFriendsWith': FriendshipStatusResolve,
+      'interestList': InterestResolve
     }
   },
   {

@@ -8,7 +8,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NotFoundComponent} from './shared/components/not-found/not-found.component';
 import {routing} from "./app.routing";
 import {AuthModule} from "./auth/auth.module";
-import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdProgressSpinnerModule} from "@angular/material";
+import {
+  MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdProgressSpinnerModule,
+  MdSelectModule
+} from "@angular/material";
 import {AuthService} from "./shared/services/auth-service/auth.service";
 import {LoadingDialogComponent} from './shared/components/loading-dialog/loading-dialog.component';
 import {CacheService} from "ng2-cache";
@@ -22,6 +25,8 @@ import {FriendshipService} from "./shared/services/friendship-service/friendship
 import {SentRequestResolve} from "./shared/resolvers/sent.request.resolve";
 import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolve";
 import {FriendshipStatusResolve} from "./shared/resolvers/friendship.status.resolve";
+import {InterestService} from "./shared/services/interest-service/interest.service";
+import {InterestResolve} from "./shared/resolvers/interest.resolve";
 
 @NgModule({
   declarations: [
@@ -52,7 +57,9 @@ import {FriendshipStatusResolve} from "./shared/resolvers/friendship.status.reso
     FriendshipService,
     SentRequestResolve,
     ReceivedRequestResolve,
-    FriendshipStatusResolve
+    FriendshipStatusResolve,
+    InterestService,
+    InterestResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

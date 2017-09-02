@@ -1,5 +1,5 @@
 export interface Interest {
-  id: number,
+  id?: number,
   name: string,
   childInterests?: Array<Interest>
 }

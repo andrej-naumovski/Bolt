@@ -7,8 +7,14 @@
     <ul>
       <li *ngFor="let interest of _interests">{{interest.name}}</li>
     </ul>
+    <md-select color="accent" [(ngModel)]="selectedInterest" *ngIf="this.isInEditMode" placeholder="Select interest">
+      <md-option *ngFor="let interest of interestList" [value]="interest">{{interest.name}}</md-option>
+    </md-select>
+    <p class="error" *ngIf="this.errorMessage">{{this.errorMessage}}</p>
   </md-card-content>
   <md-card-actions *ngIf="this._isCurrentUser">
-    <button md-button color="accent">EDIT</button>
+    <button *ngIf="!this.isInEditMode" (click)="toggleEditMode()" md-button color="accent">EDIT</button>
+    <button *ngIf="this.isInEditMode" (click)="saveInterest()" md-button color="accent">ADD INTEREST</button>
+    <button *ngIf="this.isInEditMode" (click)="toggleEditMode()" md-button color="accent">CANCEL</button>
   </md-card-actions>
 </md-card>
