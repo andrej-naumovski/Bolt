@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
@@ -39,42 +40,49 @@ public class InterestController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getAllInterests() {
         List<Interest> list = interestService.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getInterestByName(@PathVariable String name) {
         Interest interest = interestService.findByName(name);
         return new ResponseEntity<>(interest, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getInterestById(@PathVariable Long id) {
         Interest interest = interestService.findById(id);
         return new ResponseEntity<>(interest, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity saveInterest(@RequestBody Interest interest){
         Interest in = interestService.save(interest);
         return new ResponseEntity<>(in, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteInterest(@PathVariable Long id){
         interestService.delete(id);
         return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getInterestsByUsername(@PathVariable String username) {
         List<Interest> interests = interestService.findInterestsByUserUsername(username);
         return new ResponseEntity<>(interests, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{name}", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity addInterestToUser(@PathVariable(name = "name") String interestName,
                                             HttpServletResponse response,
                                             HttpServletRequest request) {
@@ -95,6 +103,7 @@ public class InterestController {
     }
 
     @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteInterestFromUser(@PathVariable(name = "name") String interestName,
                                                  HttpServletRequest request,
                                                  HttpServletResponse response) {

@@ -123,6 +123,7 @@ public class FriendshipController {
     }
 
     @RequestMapping(value = "/sent", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity friendRequestsSent(HttpServletRequest request, HttpServletResponse response) {
         String token = tokenHelper.getToken(request);
         String username = tokenHelper.getUsernameFromToken(token);
@@ -132,6 +133,7 @@ public class FriendshipController {
     }
 
     @RequestMapping(value = "/received", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity friendRequestsReceived(HttpServletRequest request, HttpServletResponse response) {
         String token = tokenHelper.getToken(request);
         String username = tokenHelper.getUsernameFromToken(token);
