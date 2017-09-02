@@ -82,6 +82,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return new ResponseEntity<>(
@@ -91,6 +92,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity saveUser(@PathVariable String username, @RequestBody User user){
         if(!username.equals(user.getUsername()))
             return new ResponseEntity<>(

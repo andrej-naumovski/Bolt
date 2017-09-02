@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,30 +33,35 @@ public class MessageRestController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getBySenderAndReceiver(String sender, String receiver){
         List<Message> messages = messageService.findBySenderAndReceiver(sender, receiver);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity saveMessage(Message message){
         Message message1 = messageService.save(message);
         return new ResponseEntity<>(message1, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteMessage(@PathVariable Long id){
         messageService.delete(id);
         return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(),"Message successfully deleted"),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}/last", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getLastUsersFromChat(@PathVariable String username) {
         List<User> users = messageService.findLastUsersFromChat(username);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}/favorite", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getFavoriteUsers(@PathVariable String username){
         List<User> users = messageService.findFavoriteUsers(username);
         return new ResponseEntity<>(users, HttpStatus.OK);

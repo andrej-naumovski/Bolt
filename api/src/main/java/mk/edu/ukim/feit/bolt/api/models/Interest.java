@@ -70,6 +70,7 @@ public class Interest {
         return childInterests;
     }
 
+    @JsonIgnore
     public void setChildInterests(Set<Interest> childInterests) {
         this.childInterests = childInterests;
     }
