@@ -14,16 +14,6 @@ export class MessageOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.chatList = this.route.snapshot.data['chatList'];
-    this.chatList.push({
-      id: 1,
-      username: 'test',
-      firstName: 'Test',
-      lastName: 'Smith',
-      contact: {
-        email: 'test@test.com'
-      },
-      interests: []
-    });
     console.log(this.route.parent);
   }
 
