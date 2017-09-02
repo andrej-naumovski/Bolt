@@ -6,10 +6,6 @@ import { ProfileOverviewComponent } from './profile-overview/profile-overview.co
 import {MdButtonModule, MdCardModule, MdIconModule, MdToolbarModule} from "@angular/material";
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
 import { ProfileInterestsComponent } from './profile-interests/profile-interests.component';
-import {XSRFStrategy} from "@angular/http";
-import {xsrfFactory} from "../shared/factories/xsrf.factory";
-import {AuthenticatedInterceptor} from "../shared/interceptors/authenticated.interceptor";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 @NgModule({
   imports: [

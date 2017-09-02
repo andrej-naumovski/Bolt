@@ -18,7 +18,9 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 import {AuthenticatedInterceptor} from "./shared/interceptors/authenticated.interceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
-import {xsrfFactory} from "./shared/factories/xsrf.factory";
+import {FriendshipService} from "./shared/services/friendship-service/friendship.service";
+import {SentRequestResolve} from "./shared/resolvers/sent.request.resolve";
+import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolve";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,10 @@ import {xsrfFactory} from "./shared/factories/xsrf.factory";
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticatedInterceptor,
       multi: true
-    }
+    },
+    FriendshipService,
+    SentRequestResolve,
+    ReceivedRequestResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]
