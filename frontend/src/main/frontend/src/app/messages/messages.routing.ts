@@ -6,6 +6,7 @@ import {SingleMessageListResolve} from "../shared/resolvers/single.message.list.
 import {MessagesComponent} from "./messages.component";
 import {ChatArchiveResolve} from "../shared/resolvers/chat.archive.resolve";
 import {UserResolve} from "../shared/resolvers/user.resolve";
+import {CurrentUserResolve} from "../shared/resolvers/current.user.resolve";
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
         component: ChatWindowComponent,
         resolve: {
           'chatArchive': ChatArchiveResolve,
-          'friendUser': UserResolve
+          'friendUser': UserResolve,
+          'currentUser': CurrentUserResolve
         }
       }
     ]

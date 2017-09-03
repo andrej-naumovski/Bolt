@@ -15,9 +15,17 @@ export class ProfileInfoComponent implements OnInit {
     this._user = user;
   }
 
+  get user() {
+    return this._user;
+  }
+
   @Input()
   set currentUser(currentUser: boolean) {
     this._isCurrentUser = currentUser;
+  }
+
+  get currentUser() {
+    return this._isCurrentUser;
   }
 
   constructor() { }

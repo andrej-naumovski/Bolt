@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./message-overview.component.css']
 })
 export class MessageOverviewComponent implements OnInit {
-  private chatList: Array<User>;
+  public chatList: Array<User>;
 
   constructor(private route: ActivatedRoute) { }
 

@@ -3,13 +3,23 @@ md-input-container {
   overflow: hidden;
 }
 
+.row {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+chat-message {
+  display: inline-block;
+  width: 40%;
+}
+
 textarea {
   resize: none;
   width: inherit;
 }
 
 .img-circle {
-  width: 20%;
+  width: 100%;
   display: inline;
 }
 
@@ -20,4 +30,12 @@ h3 {
 .user {
   text-align: center;
   color: white !important;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }

@@ -20,7 +20,6 @@ import {UserResolve} from "./shared/resolvers/user.resolve";
 import {AuthGuard} from "./shared/guards/auth.guard";
 import {AuthenticatedInterceptor} from "./shared/interceptors/authenticated.interceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {CookieService} from "ngx-cookie-service";
 import {FriendshipService} from "./shared/services/friendship-service/friendship.service";
 import {SentRequestResolve} from "./shared/resolvers/sent.request.resolve";
 import {ReceivedRequestResolve} from "./shared/resolvers/received.request.resolve";
@@ -32,6 +31,19 @@ import {MessagesModule} from "./messages/messages.module";
 import {MessageService} from "./shared/services/message-service/message.service";
 import {SingleMessageListResolve} from "./shared/resolvers/single.message.list.resolve";
 import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
+import {StompConfig, StompService} from "@stomp/ng2-stompjs";
+import {CurrentUserResolve} from "./shared/resolvers/current.user.resolve";
+
+const stompConfig: StompConfig = {
+  url: 'ws://localhost:8080/ws-connect',
+  headers: {
+
+  },
+  heartbeat_in: 0,
+  heartbeat_out: 20000,
+  reconnect_delay: 5000,
+  debug: true
+};
 
 @NgModule({
   declarations: [
@@ -55,7 +67,7 @@ import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
     MessagesModule,
     routing
   ],
-  providers: [AuthService, CacheService, CookieService, ProfileService, UserResolve, AuthGuard,
+  providers: [AuthService, CacheService, ProfileService, UserResolve, AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticatedInterceptor,
@@ -69,7 +81,13 @@ import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
     InterestResolve,
     MessageService,
     SingleMessageListResolve,
-    ChatArchiveResolve
+    ChatArchiveResolve,
+    StompService,
+    CurrentUserResolve,
+    {
+      provide: StompConfig,
+      useValue: stompConfig
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

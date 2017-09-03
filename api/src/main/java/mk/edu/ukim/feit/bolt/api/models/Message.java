@@ -52,7 +52,6 @@ public class Message {
         this.message = message;
     }
 
-    @JsonIgnore
     public User getSenderUser() {
         return senderUser;
     }
@@ -61,7 +60,6 @@ public class Message {
         this.senderUser = senderUser;
     }
 
-    @JsonIgnore
     public User getReceiverUser() {
         return receiverUser;
     }

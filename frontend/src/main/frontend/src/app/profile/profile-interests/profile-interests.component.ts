@@ -12,9 +12,9 @@ import {GenericResponse} from "../../shared/models/generic.response";
 export class ProfileInterestsComponent implements OnInit {
   private _interests: Array<Interest>;
   private _isCurrentUser: boolean;
-  private interestList: Array<Interest>;
-  private isInEditMode: boolean;
-  private errorMessage: string;
+  public interestList: Array<Interest>;
+  public isInEditMode: boolean;
+  public errorMessage: string;
   public selectedInterest: Interest;
 
   @Input()
@@ -22,9 +22,17 @@ export class ProfileInterestsComponent implements OnInit {
     this._interests = interests || [];
   }
 
+  get interests() {
+    return this._interests;
+  }
+
   @Input()
   set currentUser(currentUser: boolean) {
     this._isCurrentUser = currentUser;
+  }
+
+  get currentUser() {
+    return this._isCurrentUser;
   }
 
   constructor(private route: ActivatedRoute, private interestService: InterestService) { }

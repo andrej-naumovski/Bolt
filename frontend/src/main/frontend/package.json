@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prod": "ng build --prod --base-href=\"./\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -23,11 +24,15 @@
     "@angular/platform-browser": "4.3.0",
     "@angular/platform-browser-dynamic": "4.3.0",
     "@angular/router": "4.3.0",
+    "@stomp/ng2-stompjs": "^0.4.2",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
     "ng2-cache": "^0.1.11",
+    "ng2-stomp-service": "^1.2.2",
     "rxjs": "^5.1.0",
+    "sockjs-client": "^1.1.4",
+    "stompjs": "^2.3.3",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

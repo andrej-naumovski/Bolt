@@ -10,7 +10,7 @@ import {AuthService} from "../../shared/services/auth-service/auth.service";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  private registerForm: FormGroup;
+  public registerForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService) {

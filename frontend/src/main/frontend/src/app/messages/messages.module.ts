@@ -7,10 +7,12 @@ import { ChatListElementComponent } from './chat-list-element/chat-list-element.
 import {routing} from "./messages.routing";
 import {MdButtonModule, MdCardModule, MdIconModule, MdInputModule, MdToolbarModule} from "@angular/material";
 import { ChatMessageComponent } from './chat-message/chat-message.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     MdToolbarModule,
     MdIconModule,
     MdButtonModule,

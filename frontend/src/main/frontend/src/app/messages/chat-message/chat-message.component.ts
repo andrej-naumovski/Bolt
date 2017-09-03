@@ -9,17 +9,23 @@ import {CacheService} from "ng2-cache";
 })
 export class ChatMessageComponent implements OnInit {
   private _message: Message;
-  private isIncoming: boolean;
 
   @Input()
   set message(message: Message) {
     this._message = message;
   }
 
-  constructor(private cacheService: CacheService) { }
+  get message() {
+    return this._message;
+  }
+
+  constructor(private cacheService: CacheService) {
+    console.log(this._message);
+  }
 
   ngOnInit() {
-    this.isIncoming = this._message.senderUser.username !== this.cacheService.get('username');
+    console.log(this._message.senderUser.username);
+    console.log(this.cacheService.get('username'));
   }
 
 }

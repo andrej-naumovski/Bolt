@@ -8,13 +8,11 @@
 
     <name>Bolt Client</name>
     <description>Bolt messaging app frontend client</description>
-    <packaging>war</packaging>
 
     <parent>
         <groupId>mk.edu.ukim.feit.bolt</groupId>
         <artifactId>parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
@@ -52,14 +50,14 @@
                     </execution>
 
                     <execution>
-                        <id>npm run build</id>
+                        <id>npm run prod</id>
 
                         <goals>
                             <goal>npm</goal>
                         </goals>
 
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run prod</arguments>
                         </configuration>
                     </execution>
                 </executions>

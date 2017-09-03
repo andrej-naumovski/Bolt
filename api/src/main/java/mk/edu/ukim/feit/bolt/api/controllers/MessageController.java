@@ -76,7 +76,7 @@ public class MessageController {
         senderUser.getSentMessages().add(message);
         receiverUser.getReceivedMessages().add(message);
         userService.saveUser(senderUser);
-        userService.saveUser(receiverUser);
+        //userService.saveUser(receiverUser);
         logger.debug(" " + messageService.findAll().size());
         return message;
     }

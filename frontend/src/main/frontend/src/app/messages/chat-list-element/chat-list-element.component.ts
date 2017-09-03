@@ -15,6 +15,10 @@ export class ChatListElementComponent implements OnInit {
     this._user = user;
   }
 
+  get user() {
+    return this._user;
+  }
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -24,7 +28,7 @@ export class ChatListElementComponent implements OnInit {
   }
 
   openChat() {
-    this.router.navigateByUrl('/messages/' + this._user.username);
+    this.router.navigateByUrl('/messages/chat/' + this._user.username);
   }
 
 }

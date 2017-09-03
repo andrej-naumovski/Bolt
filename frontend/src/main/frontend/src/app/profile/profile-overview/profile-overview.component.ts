@@ -13,13 +13,13 @@ import {AuthService} from "../../shared/services/auth-service/auth.service";
   styleUrls: ['./profile-overview.component.css']
 })
 export class ProfileOverviewComponent implements OnInit {
-  private profile: User;
-  private isCurrentUser: boolean;
-  private isFriendsWith: boolean;
-  private isFriendRequestSent: boolean;
-  private isFriendRequestReceived: boolean;
-  private successMessage: string;
-  private errorMessage: string;
+  public profile: User;
+  public isCurrentUser: boolean;
+  public isFriendsWith: boolean;
+  public isFriendRequestSent: boolean;
+  public isFriendRequestReceived: boolean;
+  public successMessage: string;
+  public errorMessage: string;
 
   constructor(private route: ActivatedRoute,
               private cacheService: CacheService,
@@ -36,6 +36,10 @@ export class ProfileOverviewComponent implements OnInit {
     this.isFriendRequestSent = (<GenericResponse<boolean>>this.route.snapshot.data['hasSentRequest']).message;
     this.isFriendRequestReceived = (<GenericResponse<boolean>>this.route.snapshot.data['hasReceivedRequest']).message;
     this.isFriendsWith = (<GenericResponse<boolean>>this.route.snapshot.data['isFriendsWith']).message;
+  }
+
+  sendMessage() {
+    this.router.navigateByUrl('/messages/chat/' + this.route.snapshot.paramMap.get('username'));
   }
 
   sendFriendRequest() {

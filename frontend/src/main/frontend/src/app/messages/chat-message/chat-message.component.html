@@ -1,5 +1,5 @@
-<div class="row" [ngClass]="{'incoming': this.isIncoming, 'sent': !this.isIncoming}">
-  <div [ngClass]="{'incoming-wrapper': this.isIncoming, 'sent-wrapper': !this.isIncoming}">
-    <p>{{this._message.message}}</p>
+<div class="row" [ngClass]="{'incoming': this._message.senderUser.username != this.cacheService.get('username'), 'sent': !(this._message.senderUser.username != this.cacheService.get('username'))}">
+  <div class="wrapper" [ngClass]="{'incoming-wrapper': this._message.senderUser.username != this.cacheService.get('username'), 'sent-wrapper': !(this._message.senderUser.username != this.cacheService.get('username'))}">
+    <p>{{this.message.message}}</p>
   </div>
 </div>

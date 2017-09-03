@@ -9,13 +9,16 @@
     <md-card>
       <md-card-content>
         <p *ngIf="this.chatArchive.length == 0">Send a message to start a conversation!</p>
-        <chat-message *ngFor="let message of this.chatArchive" [message]="message"></chat-message>
+        <div class="row" *ngFor="let message of this.chatArchive" [ngClass]="{'left': message.senderUser.username == this.otherUser.username,
+                                  'right': message.senderUser.username == this.currentUser.username}">
+          <chat-message [message]="message"></chat-message>
+        </div>
         <md-input-container>
-          <textarea mdInput rows="" cols="37"></textarea>
+          <textarea [(ngModel)]="this.message" mdInput rows="" cols="37"></textarea>
         </md-input-container>
       </md-card-content>
       <md-card-actions>
-        <button md-button color="accent">SEND</button>
+        <button md-button color="accent" (click)="sendMessage()">SEND</button>
       </md-card-actions>
     </md-card>
   </div>
