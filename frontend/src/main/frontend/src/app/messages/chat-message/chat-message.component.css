@@ -1,0 +1,17 @@
+.incoming {
+  text-align: left;
+}
+
+.sent {
+  text-align: right;
+}
+
+.incoming-wrapper {
+  background: #FFC400;
+  color: white;
+}
+
+.sent-wrapper {
+  background: #FAFAFA;
+  color: rgba(0, 0, 0, 0.87);
+}

@@ -36,28 +36,32 @@ public class MessageRestController {
         this.tokenHelper = tokenHelper;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/chat/{username}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity getBySenderAndReceiver(String sender, String receiver){
-        List<Message> messages = messageService.findBySenderAndReceiver(sender, receiver);
+    public ResponseEntity getChat(@PathVariable String username, HttpServletRequest request){
+        String token = tokenHelper.getToken(request);
+        String currentUser = tokenHelper.getUsernameFromToken(token);
+        List<Message> messages = messageService.getChatArchive(currentUser, username);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteMessage(@PathVariable Long id) {
         messageService.delete(id);
         return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Message successfully deleted"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{username}/last", method = RequestMethod.GET)
+    @RequestMapping(value = "/last", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity getLastUsersFromChat(@PathVariable String username) {
+    public ResponseEntity getLastUsersFromChat(HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
         List<User> users = messageService.findLastUsersFromChat(username);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{username}/favorite", method = RequestMethod.GET)
+    @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity getFavoriteUsers(@PathVariable String username){
         List<User> users = messageService.findFavoriteUsers(username);

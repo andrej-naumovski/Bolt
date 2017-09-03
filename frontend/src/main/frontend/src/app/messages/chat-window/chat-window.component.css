@@ -1,0 +1,23 @@
+md-input-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+textarea {
+  resize: none;
+  width: inherit;
+}
+
+.img-circle {
+  width: 20%;
+  display: inline;
+}
+
+h3 {
+  font-weight: 200;
+}
+
+.user {
+  text-align: center;
+  color: white !important;
+}

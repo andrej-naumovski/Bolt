@@ -17,4 +17,5 @@ public interface MessageService {
     void delete(Long id);
     List<User> findLastUsersFromChat(String username);
     List<User> findFavoriteUsers(String username);
+    List<Message> getChatArchive(String firstUser, String secondUser);
 }

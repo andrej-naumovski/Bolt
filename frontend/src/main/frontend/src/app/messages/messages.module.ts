@@ -5,7 +5,8 @@ import { MessageOverviewComponent } from './message-overview/message-overview.co
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { ChatListElementComponent } from './chat-list-element/chat-list-element.component';
 import {routing} from "./messages.routing";
-import {MdButtonModule, MdCardModule, MdIconModule, MdToolbarModule} from "@angular/material";
+import {MdButtonModule, MdCardModule, MdIconModule, MdInputModule, MdToolbarModule} from "@angular/material";
+import { ChatMessageComponent } from './chat-message/chat-message.component';
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import {MdButtonModule, MdCardModule, MdIconModule, MdToolbarModule} from "@angu
     MdIconModule,
     MdButtonModule,
     MdCardModule,
+    MdInputModule,
     routing
   ],
-  declarations: [MessagesComponent, MessageOverviewComponent, ChatWindowComponent, ChatListElementComponent]
+  declarations: [MessagesComponent, MessageOverviewComponent, ChatWindowComponent, ChatListElementComponent, ChatMessageComponent]
 })
 export class MessagesModule { }

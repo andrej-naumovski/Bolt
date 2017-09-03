@@ -31,6 +31,7 @@ import {ProfileModule} from "./profile/profile.module";
 import {MessagesModule} from "./messages/messages.module";
 import {MessageService} from "./shared/services/message-service/message.service";
 import {SingleMessageListResolve} from "./shared/resolvers/single.message.list.resolve";
+import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {SingleMessageListResolve} from "./shared/resolvers/single.message.list.r
     InterestService,
     InterestResolve,
     MessageService,
-    SingleMessageListResolve
+    SingleMessageListResolve,
+    ChatArchiveResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

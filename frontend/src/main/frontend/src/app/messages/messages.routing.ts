@@ -4,6 +4,8 @@ import {MessageOverviewComponent} from "./message-overview/message-overview.comp
 import {ChatWindowComponent} from "./chat-window/chat-window.component";
 import {SingleMessageListResolve} from "../shared/resolvers/single.message.list.resolve";
 import {MessagesComponent} from "./messages.component";
+import {ChatArchiveResolve} from "../shared/resolvers/chat.archive.resolve";
+import {UserResolve} from "../shared/resolvers/user.resolve";
 
 const routes: Routes = [
   {
@@ -18,8 +20,12 @@ const routes: Routes = [
         }
       },
       {
-        path: ':username',
-        component: ChatWindowComponent
+        path: 'chat/:username',
+        component: ChatWindowComponent,
+        resolve: {
+          'chatArchive': ChatArchiveResolve,
+          'friendUser': UserResolve
+        }
       }
     ]
   },

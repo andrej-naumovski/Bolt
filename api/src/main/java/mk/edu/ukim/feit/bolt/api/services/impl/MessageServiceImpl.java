@@ -106,4 +106,20 @@ public class MessageServiceImpl implements MessageService {
         }
         return finalList;
     }
+
+    @Override
+    public List<Message> getChatArchive(String firstUser, String secondUser) {
+        List<Message> messages = messageRepository.findBySenderUserUsernameAndReceiverUserUsername(firstUser, secondUser);
+        messages.addAll(messageRepository.findBySenderUserUsernameAndReceiverUserUsername(secondUser, firstUser));
+        Collections.sort(messages, (o1, o2) -> {
+            if(o1.getTimestamp().compareTo(o2.getTimestamp()) < 0) {
+                return -1;
+            }
+            if(o1.getTimestamp().compareTo(o2.getTimestamp()) > 0) {
+                return 1;
+            }
+            return 0;
+        } );
+        return messages;
+    }
 }

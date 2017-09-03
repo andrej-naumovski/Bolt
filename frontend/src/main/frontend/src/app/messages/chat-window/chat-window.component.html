@@ -1,3 +1,22 @@
-<p>
-  chat-window works!
-</p>
+<div class="row user vert-offset-top-2">
+  <div class="col-md-4 col-xs-10 col-md-offset-4 col-xs-offset-1">
+    <img [src]="this.otherUser.photoUrl" class="img-responsive img-circle">
+    <h3>{{this.otherUser.firstName + ' ' + this.otherUser.lastName}}</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 col-xs-10 col-md-offset-4 col-xs-offset-1">
+    <md-card>
+      <md-card-content>
+        <p *ngIf="this.chatArchive.length == 0">Send a message to start a conversation!</p>
+        <chat-message *ngFor="let message of this.chatArchive" [message]="message"></chat-message>
+        <md-input-container>
+          <textarea mdInput rows="" cols="37"></textarea>
+        </md-input-container>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button color="accent">SEND</button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>

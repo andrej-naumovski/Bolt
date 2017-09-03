@@ -13,4 +13,9 @@ export class MessageService {
       .get(environment.api + '/messages/last');
   }
 
+  getPastMessagesWithUser(username: string): Observable<any> {
+    return this.http
+      .get(environment.api + '/messages/chat/' + username);
+  }
+
 }
