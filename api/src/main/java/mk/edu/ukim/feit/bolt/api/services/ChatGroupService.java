@@ -16,4 +16,5 @@ public interface ChatGroupService {
     ChatGroup findByName(String name);
     List<ChatGroup> findByUserUsername(String username);
     List<ChatGroup> findRecommendedGroupsByUser(String username);
+    void subscribe(String group, String username) throws Exception;
 }
