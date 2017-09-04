@@ -15,4 +15,5 @@ public interface ChatGroupService {
     List<ChatGroup> findByInterestName(String name);
     ChatGroup findByName(String name);
     List<ChatGroup> findByUserUsername(String username);
+    List<ChatGroup> findRecommendedGroupsByUser(String username);
 }

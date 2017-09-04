@@ -1,8 +1,10 @@
 package mk.edu.ukim.feit.bolt.api.services.impl;
 
 import mk.edu.ukim.feit.bolt.api.models.ChatGroup;
+import mk.edu.ukim.feit.bolt.api.models.Interest;
 import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.repositories.ChatGroupRepository;
+import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.ChatGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +18,18 @@ import java.util.List;
 @Service
 public class ChatGroupServiceImpl implements ChatGroupService {
     private ChatGroupRepository chatGroupRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public ChatGroupServiceImpl(ChatGroupRepository chatGroupRepository) {
+    public ChatGroupServiceImpl(ChatGroupRepository chatGroupRepository, UserRepository userRepository) {
         if(chatGroupRepository == null) {
             throw new IllegalArgumentException(ChatGroupRepository.class.getName() + " cannot be null.");
         }
+        if(userRepository == null) {
+            throw new IllegalArgumentException(UserRepository.class.getName() + " cannot be null");
+        }
         this.chatGroupRepository = chatGroupRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -73,6 +80,33 @@ public class ChatGroupServiceImpl implements ChatGroupService {
                     chatGroups.add(curr);
                     break;
                 }
+            }
+        }
+
+        return chatGroups;
+    }
+
+    @Override
+    public List<ChatGroup> findRecommendedGroupsByUser(String username) {
+        User user = userRepository.findByUsername(username);
+        List<Interest> interestsByUser = new ArrayList<>(user.getInterests());
+        List<Interest> allInterests  = new ArrayList<>();
+        allInterests.addAll(interestsByUser);
+
+        for(Interest interest : interestsByUser) {
+            if(interest.getParentInterest() != null) {
+                allInterests.add(interest.getParentInterest());
+            }
+            if(interest.getChildInterests() != null && interest.getChildInterests().size() > 0) {
+                allInterests.addAll(interest.getChildInterests());
+            }
+        }
+
+        List<ChatGroup> chatGroups = new ArrayList<>();
+        for(Interest interest : allInterests) {
+            List<ChatGroup> chatGroupList = findByInterestName(interest.getName());
+            if(chatGroupList != null && chatGroupList.size() > 0) {
+                chatGroups.addAll(chatGroupList);
             }
         }
 
