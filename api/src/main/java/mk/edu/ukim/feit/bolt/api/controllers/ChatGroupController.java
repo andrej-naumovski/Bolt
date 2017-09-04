@@ -101,4 +101,13 @@ public class ChatGroupController {
         List<ChatGroup> chatGroups = chatGroupService.findByUserUsername(username);
         return new ResponseEntity<>(chatGroups, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/recommended", method = RequestMethod.GET)
+    public ResponseEntity findRecommendedGroupsByUser(HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
+        List<ChatGroup> chatGroups = chatGroupService.findRecommendedGroupsByUser(username);
+        return new ResponseEntity<>(chatGroups, HttpStatus.OK);
+    }
 }
