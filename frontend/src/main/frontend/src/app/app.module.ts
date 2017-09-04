@@ -34,6 +34,10 @@ import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import {CurrentUserResolve} from "./shared/resolvers/current.user.resolve";
 import {FeedModule} from "./feed/feed.module";
+import {ChatgroupService} from "./shared/services/chatgroup-service/chatgroup.service";
+import {UserGroupsResolve} from "./shared/resolvers/user.groups.resolve";
+import {RecommendedGroupsResolve} from "./shared/resolvers/recommended.groups.resolve";
+import {FavoriteUsersResolve} from "./shared/resolvers/favorite.users.resolve";
 
 const stompConfig: StompConfig = {
   url: 'ws://localhost:8080/ws-connect',
@@ -85,7 +89,11 @@ const stompConfig: StompConfig = {
     {
       provide: StompConfig,
       useValue: stompConfig
-    }
+    },
+    ChatgroupService,
+    UserGroupsResolve,
+    RecommendedGroupsResolve,
+    FavoriteUsersResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

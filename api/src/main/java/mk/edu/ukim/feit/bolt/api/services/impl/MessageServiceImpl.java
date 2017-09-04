@@ -94,9 +94,9 @@ public class MessageServiceImpl implements MessageService {
             @Override
             public int compare(Pair<User, Long> o1, Pair<User, Long> o2) {
                 if(o1.getValue()<o2.getValue())
-                    return -1;
-                if(o1.getValue()>o2.getValue())
                     return 1;
+                if(o1.getValue()>o2.getValue())
+                    return -1;
                 return 0;
             }
         });

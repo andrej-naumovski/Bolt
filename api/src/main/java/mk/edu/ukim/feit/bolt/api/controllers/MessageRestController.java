@@ -63,7 +63,9 @@ public class MessageRestController {
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity getFavoriteUsers(@PathVariable String username){
+    public ResponseEntity getFavoriteUsers(HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token); 
         List<User> users = messageService.findFavoriteUsers(username);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

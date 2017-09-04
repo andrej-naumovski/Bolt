@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CacheService} from "ng2-cache";
 import {AuthService} from "../shared/services/auth-service/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-feed',
@@ -13,7 +13,8 @@ export class FeedComponent implements OnInit {
 
   constructor(private cacheService: CacheService,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -34,6 +35,9 @@ export class FeedComponent implements OnInit {
         selected: false
       }
     ];
+    console.log(this.route.snapshot.data['favoriteContacts']);
+    console.log(this.route.snapshot.data['recommendedGroups']);
+    console.log(this.route.snapshot.data['userGroups']);
   }
 
   logout() {

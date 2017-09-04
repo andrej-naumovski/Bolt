@@ -16,6 +16,9 @@ import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,10 +32,10 @@ public class InterestController {
 
     @Autowired
     InterestController(InterestService interestService, TokenHelper tokenHelper) {
-        if(interestService == null) {
+        if (interestService == null) {
             throw new IllegalArgumentException(InterestService.class.getName() + " cannot be null.");
         }
-        if(tokenHelper == null) {
+        if (tokenHelper == null) {
             throw new IllegalArgumentException(TokenHelper.class.getName() + " cannot be null.");
         }
         this.interestService = interestService;
@@ -60,16 +63,35 @@ public class InterestController {
         return new ResponseEntity<>(interest, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/parent/{parent}", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity saveInterest(@RequestBody Interest interest){
-        Interest in = interestService.save(interest);
+    public ResponseEntity saveInterest(@RequestBody Interest interest, @PathVariable(required = false) String parent) {
+        Interest in;
+        if (parent == null) {
+            in = interestService.save(interest);
+        } else {
+            Interest par = interestService.findByName(parent);
+            if (par == null) {
+                return new ResponseEntity<>(
+                        new GenericResponse<>(HttpStatus.NOT_FOUND.value(), "Parent interest not found."),
+                        HttpStatus.NOT_FOUND
+                );
+            }
+            if(par.getChildInterests() == null) {
+                par.setChildInterests(new HashSet<>());
+            }
+            interest.setParentInterest(par);
+            //par.getChildInterests().add(interest);
+            in = interestService.save(interest);
+            //List<Interest> interestList = new ArrayList<>(par.getChildInterests());
+            //in = interestList.get(interestList.size() - 1);
+        }
         return new ResponseEntity<>(in, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity deleteInterest(@PathVariable Long id){
+    public ResponseEntity deleteInterest(@PathVariable Long id) {
         interestService.delete(id);
         return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully deleted"), HttpStatus.OK);
     }
@@ -99,10 +121,10 @@ public class InterestController {
         }
         return new ResponseEntity<>(
                 interest,
-        HttpStatus.OK);
+                HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/{name}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity deleteInterestFromUser(@PathVariable(name = "name") String interestName,
                                                  HttpServletRequest request,
@@ -112,6 +134,6 @@ public class InterestController {
         interestService.deleteInterestFromUser(username, interestName);
         return new ResponseEntity<>(
                 new GenericResponse<>(HttpStatus.OK.value(), "Interest successfully deleted from user"),
-        HttpStatus.OK);
+                HttpStatus.OK);
     }
 }

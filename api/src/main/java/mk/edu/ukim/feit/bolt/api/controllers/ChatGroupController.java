@@ -55,7 +55,7 @@ public class ChatGroupController {
         return new ResponseEntity<>(group, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity createGroup(@RequestBody ChatGroup group) {
         ChatGroup savedGroup;

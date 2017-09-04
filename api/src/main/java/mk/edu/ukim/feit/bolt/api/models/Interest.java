@@ -56,12 +56,10 @@ public class Interest {
         this.name = name;
     }
 
-    @JsonIgnore
     public Interest getParentInterest() {
         return parentInterest;
     }
 
-    @JsonIgnore
     public void setParentInterest(Interest parentInterest) {
         this.parentInterest = parentInterest;
     }

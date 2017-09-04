@@ -23,4 +23,9 @@ export class ProfileService {
       .post(environment.api + '/friends/add/' + username, {});
   }
 
+  getFavoriteContacts(): Observable<any> {
+    return this.http
+      .get(environment.api + '/messages/favorite');
+  }
+
 }
