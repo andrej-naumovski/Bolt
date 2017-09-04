@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Message} from "../../shared/models/message";
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../../shared/models/user";
@@ -17,7 +17,7 @@ export class ChatWindowComponent implements OnInit {
   public currentUser: User;
   public message: string;
   public stompClient: Stomp.Client;
-
+  @ViewChild('chatWindowContainer') private chatWindowContainer: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private stomp: StompService,
@@ -41,6 +41,7 @@ export class ChatWindowComponent implements OnInit {
         (message) => {
           console.log('Message is: ' + message);
           this.chatArchive.push(<Message>JSON.parse(message.body));
+          this.scrollChatToBottom();
         }
       )
     });
@@ -61,6 +62,14 @@ export class ChatWindowComponent implements OnInit {
     };
     this.chatArchive.push(newMessage);
     this.message = '';
+    this.scrollChatToBottom();
   }
 
+  scrollChatToBottom() {
+    try {
+      this.chatWindowContainer.nativeElement.scrollTop = this.chatWindowContainer.nativeElement.scrollHeight;
+    } catch (err) {
+
+    }
+  }
 }

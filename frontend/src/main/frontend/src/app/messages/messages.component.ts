@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CacheService} from "ng2-cache";
 
 @Component({
@@ -9,7 +9,7 @@ import {CacheService} from "ng2-cache";
 })
 export class MessagesComponent implements OnInit {
 
-  constructor(private router: Router, private cacheService: CacheService) { }
+  constructor(private router: Router, private cacheService: CacheService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     console.log("MESSAGES COMPONENT");

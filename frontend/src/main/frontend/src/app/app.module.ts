@@ -33,6 +33,7 @@ import {SingleMessageListResolve} from "./shared/resolvers/single.message.list.r
 import {ChatArchiveResolve} from "./shared/resolvers/chat.archive.resolve";
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import {CurrentUserResolve} from "./shared/resolvers/current.user.resolve";
+import {FeedModule} from "./feed/feed.module";
 
 const stompConfig: StompConfig = {
   url: 'ws://localhost:8080/ws-connect',
@@ -62,9 +63,6 @@ const stompConfig: StompConfig = {
     MdDialogModule,
     MdProgressSpinnerModule,
     MdIconModule,
-    AuthModule,
-    ProfileModule,
-    MessagesModule,
     routing
   ],
   providers: [AuthService, CacheService, ProfileService, UserResolve, AuthGuard,

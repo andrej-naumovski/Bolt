@@ -14,7 +14,7 @@ const routes: Routes = [
     component: MessagesComponent,
     children: [
       {
-        path: 'list',
+        path: '',
         component: MessageOverviewComponent,
         resolve: {
           'chatList': SingleMessageListResolve
