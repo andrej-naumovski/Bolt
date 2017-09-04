@@ -112,4 +112,16 @@ public class ChatGroupServiceImpl implements ChatGroupService {
 
         return chatGroups;
     }
+
+    @Override
+    public void subscribe(String group, String username) throws Exception {
+        User user = userRepository.findByUsername(username);
+        ChatGroup chatGroup = chatGroupRepository.findByName(group);
+        chatGroup.getUsers().add(user);
+        try {
+            chatGroupRepository.save(chatGroup);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
 }

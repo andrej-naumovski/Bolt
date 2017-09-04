@@ -110,4 +110,19 @@ public class ChatGroupController {
         List<ChatGroup> chatGroups = chatGroupService.findRecommendedGroupsByUser(username);
         return new ResponseEntity<>(chatGroups, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/subscribe/{group}", method = RequestMethod.POST)
+    public ResponseEntity subscribe(@PathVariable String group, HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
+        try {
+            chatGroupService.subscribe(group, username);
+        } catch (Exception e){
+            return new ResponseEntity<>(new GenericResponse<>(HttpStatus.BAD_REQUEST.value(), "Error subscribing to group. Please try again."),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new GenericResponse<>(HttpStatus.OK.value(), "Successfully subscribed."),
+                HttpStatus.OK);
+    }
 }
