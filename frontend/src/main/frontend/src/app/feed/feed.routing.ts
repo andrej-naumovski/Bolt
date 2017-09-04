@@ -6,9 +6,6 @@ const routes:Routes = [
   {
     path: '',
     component: FeedComponent,
-    children: [
-
-    ]
   },
   {
     path: '**', redirectTo: '../404'

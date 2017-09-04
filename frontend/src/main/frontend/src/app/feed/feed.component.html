@@ -1,3 +1,39 @@
-<p>
-  feed works!
-</p>
+<md-sidenav-container fullscreen class="sidenav-container">
+  <md-sidenav #sitenav class="sidenav" mode="push">
+    <div class="col-xs-12">
+      <img src="../../assets/Splash%20screen%20elements.png" class="img img-responsive">
+      <md-nav-list>
+        <button md-button md-list-item [routerLink]="item.path" [ngClass]="{'selected': item.selected}" *ngFor="let item of menu">{{item.name}}</button>
+        <!--<button md-list-item md-button>HOME</button>-->
+        <!--<br>-->
+        <!--<button md-list-item md-button>HOME</button>-->
+        <!--<br>-->
+        <!--<button md-list-item md-button>HOME</button>-->
+        <!--<br>-->
+        <!--<button md-list-item md-button>HOME</button>-->
+        <!--<br>-->
+        <!--<button md-list-item md-button>HOME</button>-->
+        <!--<br>-->
+        <!--<button md-list-item md-button>HOME</button>-->
+        <button md-button md-list-item (click)="logout()">SIGN OUT</button>
+        <button md-button (click)="sitenav.close()">HIDE SIDEBAR</button>
+      </md-nav-list>
+    </div>
+  </md-sidenav>
+  <md-toolbar color="primary" class="mat-elevation-z8">
+    <div class="col-xs-1">
+      <button md-button (click)="sitenav.open()">
+        <md-icon>menu</md-icon>
+      </button>
+    </div>
+    <div class="col-xs-2 col-xs-offset-4 logo">
+      <span>Feed</span>
+    </div>
+  </md-toolbar>
+
+  <div class="row">
+    <h2>Test</h2>
+  </div>
+
+</md-sidenav-container>
+

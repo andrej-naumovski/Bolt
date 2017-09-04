@@ -1,0 +1,38 @@
+md-toolbar {
+  padding: 0;
+}
+
+.selected {
+  background: #FFC400 !important;
+}
+
+button {
+  width: 100%;
+}
+
+.col-xs-12 {
+  padding: 0;
+}
+
+.img-responsive {
+  width: 128px;
+  margin: auto;
+  margin-bottom: 16px;
+}
+
+.logo {
+  text-align: center;
+}
+
+.sidenav-container {
+  height: auto;
+  padding: 0;
+}
+
+.sidenav {
+  display: flex;
+  height: 100%;
+  padding-top: 24px;
+  align-items: flex-start;
+  justify-content: center;
+}

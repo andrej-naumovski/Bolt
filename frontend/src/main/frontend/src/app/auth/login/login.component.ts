@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     console.log(document.cookie);
     this.loginFailed = false;
     if(this.cacheService.get('token')) {
-      this.router.navigateByUrl('profile/' + this.cacheService.get('username'));
+      this.router.navigateByUrl('feed');
     }
   }
 
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
           console.log(document.cookie);
           this.cacheService.set('token', response);
           this.cacheService.set('username', this.loginForm.controls.username.value);
-          this.router.navigateByUrl('profile/' + this.loginForm.controls.username.value);
+          this.router.navigateByUrl('feed');
         },
         (error) => {
           if(error.status === 401) {
