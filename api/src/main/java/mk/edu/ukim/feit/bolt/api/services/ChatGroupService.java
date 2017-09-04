@@ -14,4 +14,5 @@ public interface ChatGroupService {
     void delete(Long id) throws Exception;
     List<ChatGroup> findByInterestName(String name);
     ChatGroup findByName(String name);
+    List<ChatGroup> findByUserUsername(String username);
 }

@@ -2,6 +2,7 @@ package mk.edu.ukim.feit.bolt.api.controllers;
 
 import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
 import mk.edu.ukim.feit.bolt.api.models.ChatGroup;
+import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
 import mk.edu.ukim.feit.bolt.api.services.ChatGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by andrejnaumovski on 8/13/17.
@@ -18,12 +22,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/groups", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ChatGroupController {
     private ChatGroupService chatGroupService;
+    private TokenHelper tokenHelper;
 
     @Autowired
-    public ChatGroupController(ChatGroupService chatGroupService) {
+    public ChatGroupController(ChatGroupService chatGroupService, TokenHelper tokenHelper) {
         if(chatGroupService == null) {
             throw new IllegalArgumentException(ChatGroupService.class.getName() + " cannot be null.");
         }
+        if(tokenHelper == null) {
+            throw new IllegalArgumentException(TokenHelper.class.getName() + " cannot be null.");
+        }
+        this.tokenHelper = tokenHelper;
         this.chatGroupService = chatGroupService;
     }
 
@@ -82,5 +91,14 @@ public class ChatGroupController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity findGroupsByInterest(@RequestParam String interestName) {
         return new ResponseEntity<>(chatGroupService.findByInterestName(interestName), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity findByUserUsername(HttpServletRequest request) {
+        String token = tokenHelper.getToken(request);
+        String username = tokenHelper.getUsernameFromToken(token);
+        List<ChatGroup> chatGroups = chatGroupService.findByUserUsername(username);
+        return new ResponseEntity<>(chatGroups, HttpStatus.OK);
     }
 }

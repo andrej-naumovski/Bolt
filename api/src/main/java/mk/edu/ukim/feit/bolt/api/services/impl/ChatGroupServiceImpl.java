@@ -1,11 +1,13 @@
 package mk.edu.ukim.feit.bolt.api.services.impl;
 
 import mk.edu.ukim.feit.bolt.api.models.ChatGroup;
+import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.repositories.ChatGroupRepository;
 import mk.edu.ukim.feit.bolt.api.services.ChatGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,5 +61,21 @@ public class ChatGroupServiceImpl implements ChatGroupService {
     @Override
     public ChatGroup findByName(String name) {
         return chatGroupRepository.findByName(name);
+    }
+
+    @Override
+    public List<ChatGroup> findByUserUsername(String username) {
+        List<ChatGroup> all = findAll();
+        List<ChatGroup> chatGroups = new ArrayList<>();
+        for( ChatGroup curr : all ) {
+            for( User user : curr.getUsers()) {
+                if(user.getUsername().equals(username)) {
+                    chatGroups.add(curr);
+                    break;
+                }
+            }
+        }
+
+        return chatGroups;
     }
 }
