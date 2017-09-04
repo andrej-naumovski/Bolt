@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,5 +79,23 @@ public class UserServiceImpl implements ServiceScanMarker, UserService, UserDeta
         User currUser = findByUsername(currUserUsername);
         User userToCheck = findByUsername(userToCheckUsername);
         return currUser.getFriendRequestsReceived().contains(userToCheck);
+    }
+
+    @Override
+    public List<User> searchUsers(String query) {
+        List<User> all = (List<User>) userRepository.findAll();
+        List<User> users = new ArrayList<>();
+
+        for(User user : all) {
+            if(user.getUsername().contains(query)) {
+                users.add(user);
+            } else if(user.getFirstName().contains(query)) {
+                users.add(user);
+            } else if(user.getLastName().contains(query)) {
+                users.add(user);
+            }
+        }
+
+        return users;
     }
 }

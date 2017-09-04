@@ -15,4 +15,5 @@ public interface UserService {
     void deleteUser(Long id);
     boolean userSentRequest(String currUserUsername, String userToCheckUsername);
     boolean userReceivedRequest(String currUserUsername, String userToCheckUsername);
+    List<User> searchUsers(String query);
 }

@@ -138,5 +138,10 @@ public class UserController {
                 , HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    public ResponseEntity searchUsers(@PathVariable String query) {
+        List<User> users = userService.searchUsers(query);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }
