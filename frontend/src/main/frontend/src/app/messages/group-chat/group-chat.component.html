@@ -1,0 +1,24 @@
+<div class="row user vert-offset-top-2">
+  <div class="col-md-4 col-xs-10 col-md-offset-4 col-xs-offset-1">
+    <h3>{{this.group.name}}</h3>
+  </div>
+</div>
+<div class="row vert-offset-bottom-5">
+  <div class="col-md-4 col-xs-10 col-md-offset-4 col-xs-offset-1">
+    <md-card>
+      <md-card-content>
+        <p *ngIf="this.chatArchive.length == 0">Send a message to start a conversation!</p>
+        <div #chatWindowContainer class="row" *ngFor="let message of this.chatArchive" [ngClass]="{'left': message.senderUser.username != this.currentUser.username,
+                                  'right': message.senderUser.username == this.currentUser.username}">
+          <group-chat-message [message]="message"></group-chat-message>
+        </div>
+      </md-card-content>
+      <md-card-actions>
+        <md-input-container>
+          <textarea [(ngModel)]="this.message" mdInput rows="" cols="37"></textarea>
+        </md-input-container>
+        <button md-button color="accent" (click)="sendMessage()">SEND</button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>

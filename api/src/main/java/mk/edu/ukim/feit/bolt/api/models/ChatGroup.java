@@ -41,6 +41,14 @@ public class ChatGroup {
     @Column
     private String imageUrl;
 
+    public Set<GroupMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<GroupMessage> messages) {
+        this.messages = messages;
+    }
+
     @JsonIgnore
     public Long getId() {
         return id;

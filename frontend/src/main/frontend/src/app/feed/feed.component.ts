@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {CacheService} from "ng2-cache";
 import {AuthService} from "../shared/services/auth-service/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {User} from "../shared/models/user";
+import {ChatGroup} from "../shared/models/chat.group";
 
 @Component({
   selector: 'app-feed',
@@ -10,6 +12,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class FeedComponent implements OnInit {
   public menu: Array<any>;
+  public favoriteUsers: Array<User>;
+  public yourGroups: Array<ChatGroup>;
+  public recommendedGroups: Array<ChatGroup>;
 
   constructor(private cacheService: CacheService,
               private authService: AuthService,
@@ -38,6 +43,16 @@ export class FeedComponent implements OnInit {
     console.log(this.route.snapshot.data['favoriteContacts']);
     console.log(this.route.snapshot.data['recommendedGroups']);
     console.log(this.route.snapshot.data['userGroups']);
+    this.favoriteUsers = (<Array<User>>this.route.snapshot.data['favoriteContacts']).slice(0, 3);
+    this.yourGroups = <Array<ChatGroup>>this.route.snapshot.data['userGroups'];
+    let tempGroups: Array<ChatGroup> = <Array<ChatGroup>>this.route.snapshot.data['recommendedGroups'];
+    if(tempGroups.length <= 3) {
+      this.recommendedGroups = tempGroups;
+    } else {
+      for(let i = 0; i < 3; i++) {
+        this.recommendedGroups.push(tempGroups[Math.floor((Math.random() * 100000)) % tempGroups.length]);
+      }
+    }
   }
 
   logout() {

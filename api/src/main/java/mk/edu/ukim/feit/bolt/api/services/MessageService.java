@@ -1,5 +1,6 @@
 package mk.edu.ukim.feit.bolt.api.services;
 
+import mk.edu.ukim.feit.bolt.api.models.GroupMessage;
 import mk.edu.ukim.feit.bolt.api.models.Message;
 import mk.edu.ukim.feit.bolt.api.models.User;
 
@@ -18,4 +19,5 @@ public interface MessageService {
     List<User> findLastUsersFromChat(String username);
     List<User> findFavoriteUsers(String username);
     List<Message> getChatArchive(String firstUser, String secondUser);
+    List<GroupMessage> getGroupChatArchive(String group);
 }

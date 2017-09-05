@@ -1,6 +1,7 @@
 package mk.edu.ukim.feit.bolt.api.controllers;
 
 import mk.edu.ukim.feit.bolt.api.models.GenericResponse;
+import mk.edu.ukim.feit.bolt.api.models.GroupMessage;
 import mk.edu.ukim.feit.bolt.api.models.Message;
 import mk.edu.ukim.feit.bolt.api.models.User;
 import mk.edu.ukim.feit.bolt.api.security.TokenHelper;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -68,6 +70,16 @@ public class MessageRestController {
         String username = tokenHelper.getUsernameFromToken(token); 
         List<User> users = messageService.findFavoriteUsers(username);
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/chat/group/{group}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity getGroupChatMessages(@PathVariable String group) {
+        List<GroupMessage> messages = messageService.getGroupChatArchive(group);
+        if(messages == null) {
+            messages = new ArrayList<>();
+        }
+        return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
 }

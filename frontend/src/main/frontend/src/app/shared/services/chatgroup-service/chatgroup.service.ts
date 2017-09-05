@@ -22,4 +22,9 @@ export class ChatgroupService {
     return this.http
       .get(environment.api + '/groups/recommended');
   }
+
+  getGroupByGroupName(name: string): Observable<any> {
+    return this.http
+      .get(environment.api + '/groups/' + name);
+  }
 }

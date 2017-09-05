@@ -8,6 +8,8 @@ import {routing} from "./messages.routing";
 import {MdButtonModule, MdCardModule, MdIconModule, MdInputModule, MdToolbarModule} from "@angular/material";
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import {FormsModule} from "@angular/forms";
+import { GroupChatMessageComponent } from './group-chat-message/group-chat-message.component';
+import { GroupChatComponent } from './group-chat/group-chat.component';
 
 @NgModule({
   imports: [
@@ -20,6 +22,6 @@ import {FormsModule} from "@angular/forms";
     MdInputModule,
     routing
   ],
-  declarations: [MessagesComponent, MessageOverviewComponent, ChatWindowComponent, ChatListElementComponent, ChatMessageComponent]
+  declarations: [MessagesComponent, MessageOverviewComponent, ChatWindowComponent, ChatListElementComponent, ChatMessageComponent, GroupChatMessageComponent, GroupChatComponent]
 })
 export class MessagesModule { }

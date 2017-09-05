@@ -38,6 +38,8 @@ import {ChatgroupService} from "./shared/services/chatgroup-service/chatgroup.se
 import {UserGroupsResolve} from "./shared/resolvers/user.groups.resolve";
 import {RecommendedGroupsResolve} from "./shared/resolvers/recommended.groups.resolve";
 import {FavoriteUsersResolve} from "./shared/resolvers/favorite.users.resolve";
+import {CurrentGroupResolve} from "./shared/resolvers/current.group.resolve";
+import {GroupChatArchiveResolve} from "./shared/resolvers/group.chat.archive.resolve";
 
 const stompConfig: StompConfig = {
   url: 'ws://localhost:8080/ws-connect',
@@ -93,7 +95,9 @@ const stompConfig: StompConfig = {
     ChatgroupService,
     UserGroupsResolve,
     RecommendedGroupsResolve,
-    FavoriteUsersResolve
+    FavoriteUsersResolve,
+    CurrentGroupResolve,
+    GroupChatArchiveResolve
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingDialogComponent]

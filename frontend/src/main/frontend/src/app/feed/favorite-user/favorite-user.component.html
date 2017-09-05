@@ -1,0 +1,11 @@
+<md-card>
+  <md-card-header>
+    <md-card-title>{{this.user.firstName + ' ' + this.user.lastName}}</md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <img class="img img-responsive" [src]="this.user.photoUrl">
+  </md-card-content>
+  <md-card-actions>
+    <button md-button (click)="openChat()" color="accent">SEND MESSAGE</button>
+  </md-card-actions>
+</md-card>

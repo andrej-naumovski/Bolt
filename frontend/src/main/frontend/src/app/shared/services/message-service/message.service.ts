@@ -18,4 +18,9 @@ export class MessageService {
       .get(environment.api + '/messages/chat/' + username);
   }
 
+
+  getPastGroupMessages(group: string): Observable<any> {
+    return this.http
+      .get(environment.api + '/messages/chat/group/' + group);
+  }
 }

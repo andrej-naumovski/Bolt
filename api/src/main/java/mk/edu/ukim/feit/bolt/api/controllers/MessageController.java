@@ -81,7 +81,7 @@ public class MessageController {
         return message;
     }
 
-    @MessageMapping("/group/{groupName}/{sender}")
+    @MessageMapping(value = "/group/{groupName}/{sender}")
     @SendTo("/chat/group/{groupName}")
     public GroupMessage groupMessage(
             @DestinationVariable String groupName,
@@ -96,7 +96,9 @@ public class MessageController {
         ChatGroup group = chatGroupService.findByName(groupName);
         groupMessage.setGroup(group);
         groupMessage.setSenderUser(user);
-        userService.saveUser(user);
+        user.getSentGroupMessages().add(groupMessage);
+        group.getMessages().add(groupMessage);
+        //userService.saveUser(user);
         try {
             chatGroupService.save(group);
         } catch (Exception e) {

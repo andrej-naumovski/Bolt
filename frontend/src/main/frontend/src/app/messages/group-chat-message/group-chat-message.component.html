@@ -1,0 +1,8 @@
+<div class="row" *ngIf="this.message.senderUser.username != this.cacheService.get('username')">
+  <h6><small>{{this.message.senderUser.username}}</small></h6>
+</div>
+<div class="row" [ngClass]="{'incoming': this.message.senderUser.username != this.cacheService.get('username'), 'sent': !(this.message.senderUser.username != this.cacheService.get('username'))}">
+  <div class="wrapper" [ngClass]="{'incoming-wrapper': this.message.senderUser.username != this.cacheService.get('username'), 'sent-wrapper': !(this.message.senderUser.username != this.cacheService.get('username'))}">
+    <p>{{this.message.message}}</p>
+  </div>
+</div>

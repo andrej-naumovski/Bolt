@@ -7,6 +7,9 @@ import {MessagesComponent} from "./messages.component";
 import {ChatArchiveResolve} from "../shared/resolvers/chat.archive.resolve";
 import {UserResolve} from "../shared/resolvers/user.resolve";
 import {CurrentUserResolve} from "../shared/resolvers/current.user.resolve";
+import {GroupChatComponent} from "./group-chat/group-chat.component";
+import {GroupChatArchiveResolve} from "../shared/resolvers/group.chat.archive.resolve";
+import {CurrentGroupResolve} from "../shared/resolvers/current.group.resolve";
 
 const routes: Routes = [
   {
@@ -27,6 +30,15 @@ const routes: Routes = [
           'chatArchive': ChatArchiveResolve,
           'friendUser': UserResolve,
           'currentUser': CurrentUserResolve
+        }
+      },
+      {
+        path: 'group/:groupName',
+        component: GroupChatComponent,
+        resolve: {
+          'currentUser': CurrentUserResolve,
+          'chatArchive': GroupChatArchiveResolve,
+          'group': CurrentGroupResolve
         }
       }
     ]

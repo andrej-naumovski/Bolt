@@ -1,8 +1,11 @@
 package mk.edu.ukim.feit.bolt.api.services.impl;
 
 import javafx.util.Pair;
+import mk.edu.ukim.feit.bolt.api.models.ChatGroup;
+import mk.edu.ukim.feit.bolt.api.models.GroupMessage;
 import mk.edu.ukim.feit.bolt.api.models.Message;
 import mk.edu.ukim.feit.bolt.api.models.User;
+import mk.edu.ukim.feit.bolt.api.repositories.ChatGroupRepository;
 import mk.edu.ukim.feit.bolt.api.repositories.MessageRepository;
 import mk.edu.ukim.feit.bolt.api.repositories.UserRepository;
 import mk.edu.ukim.feit.bolt.api.services.MessageService;
@@ -18,13 +21,18 @@ import java.util.*;
 @Service
 public class MessageServiceImpl implements MessageService {
     private MessageRepository messageRepository;
+    private ChatGroupRepository chatGroupRepository;
 
     @Autowired
-    public MessageServiceImpl(MessageRepository messageRepository) {
-        if(messageRepository == null) {
+    public MessageServiceImpl(MessageRepository messageRepository, ChatGroupRepository chatGroupRepository) {
+        if (messageRepository == null) {
             throw new IllegalArgumentException(MessageRepository.class.getName() + " cannot be null.");
         }
+        if (chatGroupRepository == null) {
+            throw new IllegalArgumentException(ChatGroupRepository.class.getName() + " cannot be null.");
+        }
         this.messageRepository = messageRepository;
+        this.chatGroupRepository = chatGroupRepository;
     }
 
     @Override
@@ -59,22 +67,22 @@ public class MessageServiceImpl implements MessageService {
         Collections.sort(allMessages, new Comparator<Message>() {
             @Override
             public int compare(Message o1, Message o2) {
-                if(o1.getTimestamp().getTime() > o2.getTimestamp().getTime())
+                if (o1.getTimestamp().getTime() > o2.getTimestamp().getTime())
                     return 1;
-                if(o1.getTimestamp().getTime() < o2.getTimestamp().getTime())
+                if (o1.getTimestamp().getTime() < o2.getTimestamp().getTime())
                     return -1;
                 return 0;
             }
         });
         List<User> users = new ArrayList<>();
-        for(Message message : allMessages) {
-            if(!users.contains(message.getSenderUser())) {
-                if(!message.getSenderUser().getUsername().equals(username)) {
+        for (Message message : allMessages) {
+            if (!users.contains(message.getSenderUser())) {
+                if (!message.getSenderUser().getUsername().equals(username)) {
                     users.add(message.getSenderUser());
                 }
             }
-            if(!users.contains(message.getReceiverUser())) {
-                if(!message.getReceiverUser().getUsername().equals(username)) {
+            if (!users.contains(message.getReceiverUser())) {
+                if (!message.getReceiverUser().getUsername().equals(username)) {
                     users.add(message.getReceiverUser());
                 }
             }
@@ -83,25 +91,25 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<User> findFavoriteUsers(String username){
+    public List<User> findFavoriteUsers(String username) {
         List<User> allMessagedContacts = findLastUsersFromChat(username);
         List<Pair<User, Long>> list = new ArrayList<>();
-        for(int i=0; i<allMessagedContacts.size(); i++){
-            list.add(new Pair<User, Long>(allMessagedContacts.get(i), messageRepository.countBySenderUserUsernameAndReceiverUserUsername(username, allMessagedContacts.get(i).getUsername())+
-                    messageRepository.countBySenderUserUsernameAndReceiverUserUsername(allMessagedContacts.get(i).getUsername(),username)));
+        for (int i = 0; i < allMessagedContacts.size(); i++) {
+            list.add(new Pair<User, Long>(allMessagedContacts.get(i), messageRepository.countBySenderUserUsernameAndReceiverUserUsername(username, allMessagedContacts.get(i).getUsername()) +
+                    messageRepository.countBySenderUserUsernameAndReceiverUserUsername(allMessagedContacts.get(i).getUsername(), username)));
         }
         Collections.sort(list, new Comparator<Pair<User, Long>>() {
             @Override
             public int compare(Pair<User, Long> o1, Pair<User, Long> o2) {
-                if(o1.getValue()<o2.getValue())
+                if (o1.getValue() < o2.getValue())
                     return 1;
-                if(o1.getValue()>o2.getValue())
+                if (o1.getValue() > o2.getValue())
                     return -1;
                 return 0;
             }
         });
         List<User> finalList = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             finalList.add(list.get(i).getKey());
         }
         return finalList;
@@ -112,14 +120,29 @@ public class MessageServiceImpl implements MessageService {
         List<Message> messages = messageRepository.findBySenderUserUsernameAndReceiverUserUsername(firstUser, secondUser);
         messages.addAll(messageRepository.findBySenderUserUsernameAndReceiverUserUsername(secondUser, firstUser));
         Collections.sort(messages, (o1, o2) -> {
-            if(o1.getTimestamp().compareTo(o2.getTimestamp()) < 0) {
+            if (o1.getTimestamp().compareTo(o2.getTimestamp()) < 0) {
                 return -1;
             }
-            if(o1.getTimestamp().compareTo(o2.getTimestamp()) > 0) {
+            if (o1.getTimestamp().compareTo(o2.getTimestamp()) > 0) {
                 return 1;
             }
             return 0;
-        } );
+        });
+        return messages;
+    }
+
+    @Override
+    public List<GroupMessage> getGroupChatArchive(String group) {
+        List<GroupMessage> messages = new ArrayList<>(chatGroupRepository.findByName(group).getMessages());
+        Collections.sort(messages, (o1, o2) -> {
+            if (o1.getTimestamp().compareTo(o2.getTimestamp()) < 0) {
+                return -1;
+            }
+            if (o1.getTimestamp().compareTo(o2.getTimestamp()) > 0) {
+                return 1;
+            }
+            return 0;
+        });
         return messages;
     }
 }
